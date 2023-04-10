@@ -58,6 +58,7 @@ public class SystemService {
                 CookieUitl.set(response, "sysUsername", sysUser.getUsername(), 3600);
                 return ResultGenerator.genSuccessResult();
             } else {
+
                 return ResultGenerator.genFailResult("密码错误");
             }
         }
