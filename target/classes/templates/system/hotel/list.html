@@ -5,7 +5,7 @@
 <div layout:fragment="content">
 
     <div class="container" style="width: 1400px">
-        <h1>展品管理</h1>
+        <h1>藏品管理</h1>
         <div class="row clearfix">
             <form name="search-form" class="form-inline m-b-10 clearfix" th:action="@{/system/hotelListUI}"
                   id="search-form">
@@ -39,12 +39,12 @@
                             </div>
                             <div th:if="${hotel.status == 0}" align="left">
                                 <button type="button" th:onclick="updateStatus([[${hotel.id}]])"
-                                        class="btn btn-default btn-danger">禁用
+                                        class="btn btn-default btn-danger">删除
                                 </button>
                             </div>
                             <div th:if="${hotel.status == 1}" align="left">
                                 <button type="button" th:onclick="updateStatus([[${hotel.id}]])"
-                                        class="btn btn-default btn-success">启用
+                                        class="btn btn-default btn-success">撤销删除
                                 </button>
                             </div>
                         </td>
@@ -72,7 +72,7 @@
 
                         <div id="usernameDiv" class="form-group m-b-10" style="text-align:right">
                             <label class="col-sm-4 control-label">
-                                <label style="color: red">*</label>酒店名:
+                                <label style="color: red">*</label>藏品名:
                             </label>
                             <div class="col-sm-7">
                                 <input type="text" class="form-control" id="name" name="name">
@@ -80,14 +80,14 @@
                         </div>
                         <div class="form-group m-b-10" style="text-align:right">
                             <label class="col-sm-4 control-label">
-                                <label style="color: red">*</label>展品地址:</label>
+                                <label style="color: red">*</label>藏品地址:</label>
                             <div class="col-sm-7">
                                 <input type="text" class="form-control" id="address" name="address">
                             </div>
                         </div>
                         <div class="form-group m-b-10" style="text-align:right">
                             <label class="col-sm-4 control-label">
-                                酒店描述:
+                                藏品描述:
                             </label>
                             <div class="col-sm-7">
                                 <textarea type="text" rows="7" cols="20" class="form-control" id="describe"
@@ -173,11 +173,11 @@
 
 
             if ($.trim(name) === '') {
-                layer.msg("酒店名不能为空");
+                layer.msg("展品名不能为空");
                 return;
             }
             if ($.trim(address) === '') {
-                layer.msg("酒店地址不能为空!");
+                layer.msg("展品地址不能为空!");
                 return;
             }
             $.ajax({

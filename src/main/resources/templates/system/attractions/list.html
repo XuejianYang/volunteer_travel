@@ -5,7 +5,7 @@
 <div layout:fragment="content">
 
     <div class="container" style="width: 1400px">
-        <h1>景点管理</h1>
+        <h1>展览管理</h1>
         <div class="row clearfix">
             <form name="search-form" class="form-inline m-b-10 clearfix" th:action="@{/system/attractionsListUI}"
                   id="search-form">
@@ -36,10 +36,10 @@
                                 <button type="button" th:onclick="updateMember([[${attractions.id}]])" class="btn btn-default btn-info">修改</button>
                             </div>
                             <div th:if="${attractions.status == 0}" align="left">
-                                <button type="button" th:onclick="updateAttractionsStatus([[${attractions.id}]])" class="btn btn-default btn-danger">禁用</button>
+                                <button type="button" th:onclick="updateAttractionsStatus([[${attractions.id}]])" class="btn btn-default btn-danger">删除</button>
                             </div>
                             <div th:if="${attractions.status == 1}" align="left">
-                                <button type="button" th:onclick="updateAttractionsStatus([[${attractions.id}]])" class="btn btn-default btn-success">启用</button>
+                                <button type="button" th:onclick="updateAttractionsStatus([[${attractions.id}]])" class="btn btn-default btn-success">撤销删除</button>
                             </div>
                         </td>
                     </tr>

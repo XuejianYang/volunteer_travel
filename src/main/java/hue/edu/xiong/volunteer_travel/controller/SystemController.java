@@ -3,6 +3,7 @@ package hue.edu.xiong.volunteer_travel.controller;
 import hue.edu.xiong.volunteer_travel.core.Result;
 import hue.edu.xiong.volunteer_travel.core.ResultGenerator;
 import hue.edu.xiong.volunteer_travel.model.*;
+import hue.edu.xiong.volunteer_travel.repository.UserRepository;
 import hue.edu.xiong.volunteer_travel.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 public class SystemController {
     @Autowired
     private SystemService systemService;
+    @Autowired
+    private UserRepository userRepository;
 
 
     @RequestMapping("")
@@ -45,6 +48,12 @@ public class SystemController {
     @ResponseBody
     public Result saveUser(User user) {
         return systemService.saveUser(user);
+    }
+    @RequestMapping("/deleteUser")
+    @ResponseBody
+    public Result deleteUser(String id) {
+         userRepository.deleteById(id);
+        return ResultGenerator.genSuccessResult("删除成功！");
     }
 
     @RequestMapping("/getUserById")

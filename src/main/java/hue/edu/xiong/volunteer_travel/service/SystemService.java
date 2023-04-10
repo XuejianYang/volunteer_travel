@@ -90,11 +90,6 @@ public class SystemService {
 
         if (StringUtils.isEmpty(user.getId())) {//没有id的情况
             user.setId(IdGenerator.id());
-        } else {
-            User oldUser = getUserById(user.getId());
-            user.setUsername(oldUser.getUsername());
-            user.setName(oldUser.getName());
-            oldUser.setPassword(user.getPassword());
         }
 
         userRepository.saveAndFlush(user);
