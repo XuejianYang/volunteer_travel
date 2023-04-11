@@ -89,7 +89,8 @@ public class ReserveService {
     public List<UserHotel> getReserveHotelByUser(HttpServletRequest request) {
         Cookie cookie = CookieUitl.get(request, "username");
         if (cookie == null) {
-            throw new ServiceException("未能获得正确的用户名");
+//            throw new ServiceException("未能获得正确的用户名");
+            return new ArrayList<>();
         }
         User user = userRepository.findUserByUsername(cookie.getValue());
         return userHotelRepository.findUserHotelsByUser(user);
@@ -137,7 +138,8 @@ public class ReserveService {
     public List<UserAttractions> getReserveAttractionsByUser(HttpServletRequest request) {
         Cookie cookie = CookieUitl.get(request, "username");
         if (cookie == null) {
-            throw new ServiceException("未能获得正确的用户名");
+//            throw new ServiceException("未能获得正确的用户名");
+            return new ArrayList<>();
         }
         User user = userRepository.findUserByUsername(cookie.getValue());
         return userAttractionsRepository.findUserAttractionsByUser(user);

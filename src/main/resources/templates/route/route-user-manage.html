@@ -53,58 +53,58 @@
         <script th:src="@{/plugins/slider-pro/js/jquery.sliderPro.min.js}"></script>
         <script th:src="@{/plugins/owlcarousel/js/owl.carousel.min.js}"></script>
         <script th:src="@{/layer/layer.js}"></script>
-        <script th:inline="javascript">
+<!--        <script th:inline="javascript">-->
 
 
-            function cancelTravelRouteReserve(id) {
-                $.ajax({
-                    url: '/travel/route/cancelTravelRouteReserve',
-                    data: {"id": id},
-                    type: 'post',
-                    dataType: 'json',
-                    success: function (result) {
-                        if (result.code === 200) {
-                            window.location.reload();
-                        } else {
-                            layer.open({
-                                title: '错误提示',
-                                content: result.message
-                            });
-                        }
-                    }
-                })
-            }
+<!--            function cancelTravelRouteReserve(id) {-->
+<!--                $.ajax({-->
+<!--                    url: '/travel/route/cancelTravelRouteReserve',-->
+<!--                    data: {"id": id},-->
+<!--                    type: 'post',-->
+<!--                    dataType: 'json',-->
+<!--                    success: function (result) {-->
+<!--                        if (result.code === 200) {-->
+<!--                            window.location.reload();-->
+<!--                        } else {-->
+<!--                            layer.open({-->
+<!--                                title: '错误提示',-->
+<!--                                content: result.message-->
+<!--                            });-->
+<!--                        }-->
+<!--                    }-->
+<!--                })-->
+<!--            }-->
 
-            $('.filter-type-box span a').click(function () {
-                if ($(this).hasClass('active'))
-                    $(this).removeClass('active')
-                else
-                    $(this).addClass('active')
-            });
-            $('.cy-summary-intro p').each(function () {
-                var maxwidth = 260;
-                var backup = $(this).html();
-                var height_lg = $(this).parent().height();
-                if ($(this).text().length > maxwidth) {
-                    $(this).text($(this).text().substring(0, maxwidth));
-                    $(this).html($(this).html() + '...');
-                    var backup_1 = $(this).html();
-                    var height_sm = $(this).parent().height();
-                    $(this).parent().css('height', height_sm);
-                }
-                var d_value = height_lg - height_sm;
-                $(this).next().click(function () {
-                    if ($(this).html() == '更多') {
-                        $(this).html('收起');
-                        $(this).prev().html(backup);
-                        $(this).parent().animate({height: '+=' + d_value + 'px'});
-                    } else {
-                        $(this).html('更多');
-                        $(this).prev().html(backup_1);
-                        $(this).parent().animate({height: '-=' + d_value + 'px'});
-                    }
-                })
-            });
-        </script>
+<!--            $('.filter-type-box span a').click(function () {-->
+<!--                if ($(this).hasClass('active'))-->
+<!--                    $(this).removeClass('active')-->
+<!--                else-->
+<!--                    $(this).addClass('active')-->
+<!--            });-->
+<!--            $('.cy-summary-intro p').each(function () {-->
+<!--                var maxwidth = 260;-->
+<!--                var backup = $(this).html();-->
+<!--                var height_lg = $(this).parent().height();-->
+<!--                if ($(this).text().length > maxwidth) {-->
+<!--                    $(this).text($(this).text().substring(0, maxwidth));-->
+<!--                    $(this).html($(this).html() + '...');-->
+<!--                    var backup_1 = $(this).html();-->
+<!--                    var height_sm = $(this).parent().height();-->
+<!--                    $(this).parent().css('height', height_sm);-->
+<!--                }-->
+<!--                var d_value = height_lg - height_sm;-->
+<!--                $(this).next().click(function () {-->
+<!--                    if ($(this).html() == '更多') {-->
+<!--                        $(this).html('收起');-->
+<!--                        $(this).prev().html(backup);-->
+<!--                        $(this).parent().animate({height: '+=' + d_value + 'px'});-->
+<!--                    } else {-->
+<!--                        $(this).html('更多');-->
+<!--                        $(this).prev().html(backup_1);-->
+<!--                        $(this).parent().animate({height: '-=' + d_value + 'px'});-->
+<!--                    }-->
+<!--                })-->
+<!--            });-->
+<!--        </script>-->
     </div>
 </html>

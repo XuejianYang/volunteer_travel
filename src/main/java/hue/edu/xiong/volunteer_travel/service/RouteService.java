@@ -88,7 +88,8 @@ public class RouteService {
     public Result cancelTravelRouteReserve(HttpServletRequest request, String id) {
         Cookie cookie = CookieUitl.get(request, "username");
         if (cookie == null) {
-            throw new ServiceException("用户没有登录!");
+            return ResultGenerator.genFailResult("用户没有登录!");
+//            throw new ServiceException("用户没有登录!");
         }
         TravelRoute travelRoute = findTravelRouteById(id);
         User user = userRepository.findUserByUsername(cookie.getValue());

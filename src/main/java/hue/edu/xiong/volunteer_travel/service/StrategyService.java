@@ -5,6 +5,7 @@ import hue.edu.xiong.volunteer_travel.core.ResultGenerator;
 import hue.edu.xiong.volunteer_travel.core.ServiceException;
 import hue.edu.xiong.volunteer_travel.enums.StatusEnum;
 import hue.edu.xiong.volunteer_travel.model.*;
+import hue.edu.xiong.volunteer_travel.repository.LikeRepository;
 import hue.edu.xiong.volunteer_travel.repository.TravelStrategyRepository;
 import hue.edu.xiong.volunteer_travel.repository.UserRepository;
 import hue.edu.xiong.volunteer_travel.repository.UserStrategyRepository;
@@ -33,6 +34,9 @@ public class StrategyService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private LikeRepository likeRepository;
 
     @Autowired
     private UserStrategyRepository userStrategyRepository;
@@ -93,12 +97,53 @@ public class StrategyService {
         }
         return false;
     }
+    @Transactional(rollbackFor = Exception.class)
+    public Result travelStrategyLike(HttpServletRequest request, String id) {
+        Cookie cookie = CookieUitl.get(request, "username");
+        if (cookie == null) {
+            return ResultGenerator.genFailResult("用户没有登录!");
+        }
+        User user = userRepository.findUserByUsername(cookie.getValue());
+        UserLike like = new UserLike();
+        like.setId(IdGenerator.id());
+        like.setCreateTime(new Date());
+        like.setUserId(user.getId());
+        like.setItemId(id);
+        like.setItemType(3);
+        likeRepository.saveAndFlush(like);
+        return ResultGenerator.genSuccessResult();
+    }
 
+    @Transactional(rollbackFor = Exception.class)
+    public Result commentTravelStrategy(HttpServletRequest request, UserComment userComment) {
+
+        Cookie cookie = CookieUitl.get(request, "username");
+        if (cookie == null) {
+            return ResultGenerator.genFailResult("用户没有登录!");
+        }
+        User user = userRepository.findUserByUsername(cookie.getValue());
+        UserComment comment = new UserComment();
+        comment.setId(IdGenerator.id());
+        comment.setCreateTime(new Date());
+        comment.setUserId(user.getId());
+//        comment.setItemId(id);
+//        comment.setItemType(3);
+//        likeRepository.saveAndFlush(like);
+        return ResultGenerator.genSuccessResult();
+    }
+
+    /**
+     *
+     * @author yxj
+     * @date 2023/4/10 23:27
+     * @function 收藏取消收藏
+     */
     @Transactional(rollbackFor = Exception.class)
     public Result cancelTravelStrategyReserve(HttpServletRequest request, String id) {
         Cookie cookie = CookieUitl.get(request, "username");
         if (cookie == null) {
-            throw new ServiceException("用户没有登录!");
+            return ResultGenerator.genFailResult("用户没有登录!");
+//            throw new ServiceException("用户没有登录!");
         }
         TravelStrategy travelStrategy = findTravelStrategyById(id);
         User user = userRepository.findUserByUsername(cookie.getValue());

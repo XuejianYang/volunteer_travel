@@ -1,11 +1,12 @@
 package hue.edu.xiong.volunteer_travel.controller;
 
 import hue.edu.xiong.volunteer_travel.core.Result;
-import hue.edu.xiong.volunteer_travel.model.Attractions;
-import hue.edu.xiong.volunteer_travel.model.Hotel;
-import hue.edu.xiong.volunteer_travel.model.UserAttractions;
-import hue.edu.xiong.volunteer_travel.model.UserHotel;
+import hue.edu.xiong.volunteer_travel.core.ResultGenerator;
+import hue.edu.xiong.volunteer_travel.model.*;
+import hue.edu.xiong.volunteer_travel.repository.LikeRepository;
+import hue.edu.xiong.volunteer_travel.repository.UserCommentRepository;
 import hue.edu.xiong.volunteer_travel.service.ReserveService;
+import hue.edu.xiong.volunteer_travel.util.CookieUitl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +30,11 @@ public class ReserveController {
 
     @Autowired
     private ReserveService reserveService;
+
+    @Autowired
+    private LikeRepository likeRepository;
+    @Autowired
+    private UserCommentRepository userCommentRepository;
 
     @RequestMapping("/reserveHotelListUI")
     public String reserveHotelListUI(Model model, @ModelAttribute("searchName") String searchName, @PageableDefault(size = 10) Pageable pageable) {
@@ -87,9 +94,14 @@ public class ReserveController {
         Boolean flag = reserveService.isReserveAttractions(request, id);
         List<Hotel> top10Hotel = reserveService.getTop10Hotel();
         List<Attractions> top10Attractions = reserveService.getTop10Attractions();
+        List<UserLike> likeList = likeRepository.findLikeByItemId(id);
+        List<UserComment> commentList = userCommentRepository.findUserCommentByItemId(id);
+        int numb = likeList.size();
         model.addAttribute("top10Hotel", top10Hotel);
         model.addAttribute("top10Attractions", top10Attractions);
         model.addAttribute("attractions", attractions);
+        model.addAttribute("numb", likeList.size());
+        model.addAttribute("commentList", commentList);
 
         model.addAttribute("flag", flag);
         return "reserve/reserve-attractions-details";

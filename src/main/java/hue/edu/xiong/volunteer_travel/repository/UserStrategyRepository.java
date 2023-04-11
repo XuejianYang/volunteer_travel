@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import java.util.List;
 
 public interface UserStrategyRepository extends JpaRepository<UserStrategy, String>, JpaSpecificationExecutor<UserStrategy> {
-
+    // 用户收藏的
     List<UserStrategy> findUserStrategyByUser(User user);
 
     UserStrategy findUserStrategyByTravelStrategyAndUser(TravelStrategy travelStrategy, User user);
