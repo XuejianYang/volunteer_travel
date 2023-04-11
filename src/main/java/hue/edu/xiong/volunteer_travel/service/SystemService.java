@@ -45,6 +45,11 @@ public class SystemService {
     @Autowired
     private TravelStrategyRepository travelStrategyRepository;
 
+    @Autowired
+    private LikeRepository likeRepository;
+    @Autowired
+    private UserAttractionsRepository userAttractionsRepository ;
+
     private Random random = new Random(100);
 
     public Result login(SysUser sysUser, HttpServletResponse response) {
@@ -156,6 +161,15 @@ public class SystemService {
             query.orderBy(cb.desc(root.get("createDate")));
             return null;
         }, pageable);
+        List<Attractions> content = attractionsPage.getContent();
+        content.forEach(s->{
+            String id = s.getId();
+            List<UserLike> likeList = likeRepository.findLikeByItemId(id);
+            s.setLikeNum(likeList.size());
+            List<UserAttractions> userAttractionsByAttractions = userAttractionsRepository.findUserAttractionsByAttractions(s);
+            s.setPreNum(userAttractionsByAttractions.size());
+        });
+
         return attractionsPage;
     }
 

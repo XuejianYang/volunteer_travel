@@ -51,6 +51,11 @@ public class LikeService {
         }, pageable);
         return travelStrategyPage;
     }
+    public Integer findLikeCountByItemId(String id) {
+        //查询通过后台审核的攻略列表
+        List<UserLike> likeList = likeRepository.findLikeByItemId(id);
+        return likeList.size();
+    }
 
 
     @Transactional(rollbackFor = Exception.class)

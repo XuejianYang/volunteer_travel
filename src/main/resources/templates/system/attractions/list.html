@@ -22,6 +22,8 @@
                         <th width="170px">image</th>
                         <th width="150px">address</th>
                         <th width="700px">describe</th>
+                        <th width="100px">点赞</th>
+                        <th width="100px">收藏</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -31,6 +33,8 @@
                         <td><img width="170px" th:src="@{'/images/'+ ${attractions.image} +'.jpg'}"></td>
                         <td th:text="${attractions.address}"></td>
                         <td th:text="${attractions.describe}"></td>
+                        <td th:text="${attractions.likeNum}"></td>
+                        <td th:text="${attractions.preNum}"></td>
                         <td>
                             <div align="left" style="float:left">
                                 <button type="button" th:onclick="updateMember([[${attractions.id}]])" class="btn btn-default btn-info">修改</button>

@@ -1,9 +1,6 @@
 package hue.edu.xiong.volunteer_travel.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -25,6 +22,26 @@ public class Attractions {
     private Integer status;
     @Column(name = "createDate")
     private Date createDate;
+    @Transient
+    private Integer likeNum;
+    @Transient
+    private Integer preNum;
+
+    public Integer getLikeNum() {
+        return likeNum;
+    }
+
+    public void setLikeNum(Integer likeNum) {
+        this.likeNum = likeNum;
+    }
+
+    public Integer getPreNum() {
+        return preNum;
+    }
+
+    public void setPreNum(Integer preNum) {
+        this.preNum = preNum;
+    }
 
     public String getId() { return id; }
 

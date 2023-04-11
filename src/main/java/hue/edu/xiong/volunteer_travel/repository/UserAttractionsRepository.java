@@ -9,6 +9,7 @@ import java.util.List;
 public interface UserAttractionsRepository extends JpaRepository<UserAttractions, String>, JpaSpecificationExecutor<UserAttractions> {
 
     List<UserAttractions> findUserAttractionsByUser(User user);
+    List<UserAttractions> findUserAttractionsByAttractions(Attractions attractions);
 
 
     UserAttractions findUserAttractionsByAttractionsAndUser(Attractions attractions, User user);
