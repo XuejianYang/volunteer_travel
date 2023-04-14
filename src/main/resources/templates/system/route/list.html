@@ -19,10 +19,11 @@
                 <table class="table table-hover table-condensed">
                     <thead>
                     <tr>
-                        <th width="150px">name</th>
-                        <!--<th width="170px"></th>-->
-                        <th width="150px">address</th>
-                        <th width="700px">describe</th>
+                        <th width="150px">名称</th>
+                        <th width="150px">位置</th>
+                        <th width="300px">描述</th>
+                        <th width="100px">点赞</th>
+                        <th width="100px">收藏</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -30,10 +31,19 @@
                     <tr th:each="travelRoute:${page.content}">
                         <td th:text="${travelRoute.name}"></td>
                         <td th:text="${travelRoute.address}"></td>
-                        <td th:text="${travelRoute.describe}"></td>
+                        <td>
+                            <textarea cols="60px" rows="3px" th:text="${travelRoute.describe}"></textarea>
+                        </td>
+<!--                        <td th:text="${travelRoute.describe}"></td>-->
+                        <td th:text="${travelRoute.likeNum}"></td>
+                        <td th:text="${travelRoute.preNum}"></td>
                         <td>
                             <div align="left" style="float:left">
                                 <button type="button" th:onclick="updateMember([[${travelRoute.id}]])" class="btn btn-default btn-info">修改</button>
+                            </div>
+
+                            <div align="left" style="float:left">
+                                <button type="button" th:onclick="commentReset([[${travelRoute.id}]])" class="btn btn-default btn-info">评论</button>
                             </div>
                             <div th:if="${travelRoute.status == 0}" align="left">
                                 <button type="button" th:onclick="updateTravelRouteStatus([[${travelRoute.id}]])" class="btn btn-default btn-danger">禁用</button>
@@ -42,6 +52,45 @@
                                 <button type="button" th:onclick="updateTravelRouteStatus([[${travelRoute.id}]])" class="btn btn-default btn-success">启用</button>
                             </div>
                         </td>
+                        <td>
+                            <!--评论弹框-->
+                            <div class="modal fade" th:id="${travelRoute.id}">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                                    aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title" id="commentModalLabel"></h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!--评论-->
+                                            <div th:each="comment:${travelRoute.commentList}" class="cy-news-grid-item">
+                                                <div class="cy-media-body">
+                                                    <div class="cy-grid-body">
+                                                        <span  th:text="${comment.userName}">：</span>
+                                                        <span th:text="${comment.createTime}"></span>
+                                                        <small th:text="${comment.content}"></small>
+                                                        <button type="button" class="btn btn-info"  th:onclick="deleteComment([[${comment.id}]])">删除</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--评论-->
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                                            <!--                                        <button type="button" class="btn btn-info" onclick="saveForm()">提交</button>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--评论弹框-->
+                        </td>
+
+
+
+
+
                     </tr>
                     </tbody>
                 </table>
@@ -115,6 +164,15 @@
             //显示模态框
             $('#exampleModal').modal('show')
         }
+        function commentReset(ids) {
+            //全部清空
+            $('#commentModalLabel').text('评论列表');
+            //id
+
+            $('#'+ids).modal('show')
+            //显示模态框
+            // $('#commentModal').modal('show')
+        }
 
         function updateMember(id) {
             $.ajax({
@@ -135,6 +193,31 @@
                         $('#address').val(travelRoute.address);
                         //describe
                         $('#describe').val(travelRoute.describe);
+                        //显示模态框
+                        $('#exampleModal').modal('show')
+                    }
+                }
+            });
+        }
+        function updatePassword(id) {
+            $.ajax({
+                url: '/travel/comment/getCommentById',
+                data: {"id": id},
+                type: 'post',
+                dataType: 'json',
+                success: function (result) {
+                    if (result.code == 200) {
+                        var user = result.data;
+                        //全部清空
+                        $('#exampleModalLabel').text('修改密码');
+                        //id
+                        $('#id').val(user.id);
+                        //username
+                        $('#username').val(user.username);
+                        //password
+                        $('#password').val(user.password);
+                        //name
+                        $('#name').val(user.name);
                         //显示模态框
                         $('#exampleModal').modal('show')
                     }
@@ -184,6 +267,25 @@
                 success: function (result) {
                     if (result.code === 200) {
                         window.location.href = "/travel/system/travelRouteListUI";
+                    } else {
+                        layer.open({
+                            title: '错误提示',
+                            content: result.message
+                        });
+                    }
+                }
+            })
+        }
+
+        function deleteComment(id){
+            $.ajax({
+                url: '/travel/system/deleteComment',
+                data: {"id": id},
+                type: 'post',
+                dataType: 'json',
+                success: function (result) {
+                    if (result.code === 200) {
+                        window.location.reload();
                     } else {
                         layer.open({
                             title: '错误提示',

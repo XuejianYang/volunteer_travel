@@ -13,4 +13,6 @@ public interface UserRouteRepository extends JpaRepository<UserRoute, String>, J
     List<UserRoute> findUserRouteByUser(User user);
 
     UserRoute findUserRouteByTravelRouteAndUser(TravelRoute travelRoute, User user);
+
+    List<UserRoute> findUserRouteByTravelRoute(TravelRoute travelRoute);
 }

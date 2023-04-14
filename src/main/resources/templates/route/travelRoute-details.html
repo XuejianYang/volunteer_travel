@@ -27,6 +27,36 @@
     <!--service section start-->
     <div class="page-container">
         <div class="container">
+            <!--评论弹框-->
+            <div class="modal fade" id="exampleModal">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="exampleModalLabel"></h4>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" name="insertPassword"
+                                  id="insertPassword" class="form-horizontal">
+                                <!--隐藏的-->
+                                <input type="text" id="id" name="id" hidden>
+                                <div class="form-group m-b-10" style="text-align:right">
+                                    <label class="col-sm-4 control-label"><label style="color: red">*</label>评论:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="content" name="content">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                            <button type="button" class="btn btn-info" th:onclick=userComment([[${travelRoute.id}]],'评论',)>提交</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="row med_toppadder50 med_bottompadder50">
                 <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
                     <div class="news-detail-box">
@@ -40,14 +70,32 @@
                             <p th:text="${travelRoute.describe}">
                             </p>
                             <div align="right" style="float:right">
-                                <button th:if="${flag == false}" th:onclick="cancelTravelRouteReserve([[${travelRoute.id}]],'关注')"
-                                        type="button" class="btn btn-default btn-info">关注
+                                <button  th:onclick="like([[${travelRoute.id}]],'点赞')"
+                                         type="button" class="btn btn-default btn-info">(<span th:text="${numb}"></span>)点赞
                                 </button>
-                                <button th:if="${flag == true }" th:onclick="cancelTravelRouteReserve([[${travelRoute.id}]],'取消关注')"
+                                <button th:if="${flag == false}" th:onclick="cancelTravelRouteReserve([[${travelRoute.id}]],'收藏')"
+                                        type="button" class="btn btn-default btn-info">收藏
+                                </button>
+                                <button th:if="${flag == true }" th:onclick="cancelTravelRouteReserve([[${travelRoute.id}]],'取消收藏')"
                                         type="button" class="btn btn-default btn-info">
-                                    取消关注
+                                    取消收藏
                                 </button>
+                                <button  th:onclick="reset()" type="button" class="btn btn-default btn-info">评论
+                                </button>
+
                             </div>
+                            <!--评论--><br><br>
+                            <div th:each="comment:${commentList}" class="cy-news-grid-item">
+                                <div class="cy-media-body">
+                                    <div class="cy-grid-body">
+                                        <span  th:text="${comment.userName}">：</span>
+                                        <span th:text="${comment.createTime}"></span>
+                                        <small th:text="${comment.content}"></small>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--评论-->
+
                         </div>
                     </div>
 
@@ -80,11 +128,61 @@
                 success: function (result) {
                     if (result.code === 200) {
                         if(str == '预订'){
-                            confirm(str + "成功!"); //在页面上弹出对话框
-                            window.location.href = "/travel/route/routeManageUI";
+                            window.location.reload();
                         }else{
-                            confirm(str + "成功!"); //在页面上弹出对话框
-                            window.location.href = "/travel/route/travelRouteListUI";
+                            window.location.reload();
+                        }
+                    } else {
+                        layer.open({
+                            title: '错误提示',
+                            content: result.message
+                        });
+                    }
+                }
+            })
+        }
+        function like(id, str) {
+            $.ajax({
+                url: '/travel/like/save',
+                data: {"id": id},
+                type: 'post',
+                dataType: 'json',
+                success: function (result) {
+                    if (result.code === 200) {
+                        if(str == '点赞'){
+                            // confirm(str + "成功!"); //在页面上弹出对话框
+                            window.location.reload();
+                        }
+                    } else {
+                        layer.open({
+                            title: '错误提示',
+                            content: result.message
+                        });
+                    }
+                }
+            })
+        }
+
+        function reset() {
+            //全部清空
+            $('#exampleModalLabel').text('新增评论');
+            $('#content').val('');
+            //显示模态框
+            $('#exampleModal').modal('show')
+        }
+
+        function userComment(id, str) {
+            $("#content")
+            $.ajax({
+                url: '/travel/comment/save',
+                data: {"itemId": id, "content":$("#content").val()},
+                type: 'post',
+                dataType: 'json',
+                success: function (result) {
+                    if (result.code === 200) {
+                        if(str == '评论'){
+                            // confirm(str + "成功!"); //在页面上弹出对话框
+                            window.location.reload();
                         }
                     } else {
                         layer.open({

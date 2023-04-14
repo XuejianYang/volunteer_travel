@@ -105,22 +105,33 @@
                                 </div>
                                 <ul class="nav navbar-nav" id="nav_filter">
                                     <li><a th:href="@{/}">系统首页</a></li>
+
                                     <li class="dropdown"><a href="javascript:void(0);" class="dropdown-toggle"
                                                             data-toggle="dropdown" role="button"
-                                                            aria-haspopup="true" aria-expanded="false">展馆参观路线 <i
+                                                            aria-haspopup="true" aria-expanded="false">展览 <i
                                             class="fa fa-angle-down"></i></a>
                                         <ul class="dropdown-menu hovr_nav_tab">
-                                            <li><a th:href="@{/route/travelRouteListUI}">展馆参观路线</a></li>
+                                            <li><a th:href="@{/route/travelRouteListUI}">常设展览</a></li>
+                                            <li><a th:href="@{/route/routeManageUI}">专题展览</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="dropdown"><a href="javascript:void(0);" class="dropdown-toggle"
+                                                            data-toggle="dropdown" role="button"
+                                                            aria-haspopup="true" aria-expanded="false">展览参观路线 <i
+                                            class="fa fa-angle-down"></i></a>
+                                        <ul class="dropdown-menu hovr_nav_tab">
+                                            <li><a th:href="@{/route/travelRouteListUI}">展览参观路线</a></li>
                                             <li><a th:href="@{/route/routeManageUI}">我关注的路线</a></li>
                                         </ul>
                                     </li>
                                     <li class="dropdown"><a href="javascript:void(0);" class="dropdown-toggle"
                                                             data-toggle="dropdown" role="button"
-                                                            aria-haspopup="true" aria-raexpanded="false">展馆游玩攻略 <i
+                                                            aria-haspopup="true" aria-raexpanded="false">展览资讯 <i
                                             class="fa fa-angle-down"></i></a>
                                         <ul class="dropdown-menu hovr_nav_tab">
-                                            <li><a th:href="@{/strategy/travelStrategyListUI}">展馆游玩攻略</a></li>
-                                            <li><a th:href="@{/strategy/pushStrategyListUI}">我发布的攻略</a></li>
+                                            <li><a th:href="@{/strategy/travelStrategyListUI}">展览资讯</a></li>
+                                            <li><a th:href="@{/strategy/pushStrategyListUI}">我发布资讯</a></li>
 <!--                                            <li><a th:href="@{/strategy/strategyManageUI}">我关注的攻略</a></li>-->
                                         </ul>
                                     </li>
@@ -130,7 +141,7 @@
                                             class="fa fa-angle-down"></i></a>
                                         <ul class="dropdown-menu hovr_nav_tab">
 <!--                                            <li><a th:href="@{/reserve/reserveHotelListUI}">酒店预订</a></li>-->
-                                            <li><a th:href="@{/reserve/reserveAttractionsListUI}">展厅预订</a></li>
+                                            <li><a th:href="@{/reserve/reserveAttractionsListUI}">展览预订</a></li>
                                             <li><a th:href="@{/reserve/reserveManageUI}">我的预订</a></li>
                                         </ul>
                                     </li>

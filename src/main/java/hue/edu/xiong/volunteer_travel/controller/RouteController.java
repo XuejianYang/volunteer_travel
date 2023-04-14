@@ -2,7 +2,11 @@ package hue.edu.xiong.volunteer_travel.controller;
 
 import hue.edu.xiong.volunteer_travel.core.Result;
 import hue.edu.xiong.volunteer_travel.model.TravelRoute;
+import hue.edu.xiong.volunteer_travel.model.UserComment;
+import hue.edu.xiong.volunteer_travel.model.UserLike;
 import hue.edu.xiong.volunteer_travel.model.UserRoute;
+import hue.edu.xiong.volunteer_travel.repository.LikeRepository;
+import hue.edu.xiong.volunteer_travel.repository.UserCommentRepository;
 import hue.edu.xiong.volunteer_travel.service.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,7 +28,10 @@ public class RouteController {
 
     @Autowired
     private RouteService routeService;
-
+    @Autowired
+    private LikeRepository likeRepository;
+    @Autowired
+    private UserCommentRepository userCommentRepository;
     @RequestMapping("/travelRouteListUI")
     public String travelRouteListUI(Model model, @ModelAttribute("searchName") String searchName, @PageableDefault(size = 10) Pageable pageable) {
         Page<TravelRoute> page = routeService.TravelRouteListUI(searchName, pageable);
@@ -40,9 +47,13 @@ public class RouteController {
         //如果用户显示已经关注,就是查看关注列表
         Boolean flag = routeService.isRoute(request, id);
         List<TravelRoute> top10Route = routeService.findTop10Route();
+        List<UserLike> likeList = likeRepository.findLikeByItemId(id);
+        List<UserComment> commentList = userCommentRepository.findUserCommentByItemId(id);
         model.addAttribute("top10Route", top10Route);
         model.addAttribute("travelRoute", travelRoute);
         model.addAttribute("flag", flag);
+        model.addAttribute("numb", likeList.size());
+        model.addAttribute("commentList", commentList);
         return "route/travelRoute-details";
     }
 

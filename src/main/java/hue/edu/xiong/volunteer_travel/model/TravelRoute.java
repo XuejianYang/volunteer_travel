@@ -1,10 +1,8 @@
 package hue.edu.xiong.volunteer_travel.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "travel_route")
@@ -34,6 +32,37 @@ public class TravelRoute {
 
     @Column(name = "update_date")
     private Date updateDate;
+
+    @Transient
+    private Integer likeNum;
+    @Transient
+    private Integer preNum;
+    @Transient
+    private List<UserComment> commentList;
+
+    public List<UserComment> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(List<UserComment> commentList) {
+        this.commentList = commentList;
+    }
+
+    public Integer getLikeNum() {
+        return likeNum;
+    }
+
+    public void setLikeNum(Integer likeNum) {
+        this.likeNum = likeNum;
+    }
+
+    public Integer getPreNum() {
+        return preNum;
+    }
+
+    public void setPreNum(Integer preNum) {
+        this.preNum = preNum;
+    }
 
     public String getId() { return id; }
 

@@ -3,6 +3,7 @@ package hue.edu.xiong.volunteer_travel.controller;
 import hue.edu.xiong.volunteer_travel.core.Result;
 import hue.edu.xiong.volunteer_travel.core.ResultGenerator;
 import hue.edu.xiong.volunteer_travel.model.*;
+import hue.edu.xiong.volunteer_travel.repository.UserCommentRepository;
 import hue.edu.xiong.volunteer_travel.repository.UserRepository;
 import hue.edu.xiong.volunteer_travel.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class SystemController {
     private SystemService systemService;
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserCommentRepository userCommentRepository;
 
 
     @RequestMapping("")
@@ -132,6 +136,13 @@ public class SystemController {
     public Result getTravelRouteById(String id) {
         return ResultGenerator.genSuccessResult(systemService.getTravelRouteById(id));
     }
+    @RequestMapping("/deleteComment")
+    @ResponseBody
+    public Result deleteComment(String id) {
+        userCommentRepository.deleteById(id);
+        return ResultGenerator.genSuccessResult();
+    }
+
 
     @RequestMapping("/updateTravelRouteStatus")
     @ResponseBody

@@ -48,7 +48,12 @@ public class SystemService {
     @Autowired
     private LikeRepository likeRepository;
     @Autowired
-    private UserAttractionsRepository userAttractionsRepository ;
+    private UserAttractionsRepository userAttractionsRepository;
+    @Autowired
+    private UserRouteRepository userRouteRepository ;
+    @Autowired
+    private UserCommentRepository userCommentRepository;
+
 
     private Random random = new Random(100);
 
@@ -216,6 +221,17 @@ public class SystemService {
             query.orderBy(cb.desc(root.get("createDate")));
             return null;
         }, pageable);
+
+        List<TravelRoute> content = travelRoutePage.getContent();
+        content.forEach(s->{
+            String id = s.getId();
+            List<UserLike> likeList = likeRepository.findLikeByItemId(id);
+            s.setLikeNum(likeList.size());
+            List<UserRoute> userRouteList = userRouteRepository.findUserRouteByTravelRoute(s);
+            s.setPreNum(userRouteList.size());
+            List<UserComment> commentByItemId = userCommentRepository.findUserCommentByItemId(id);
+            s.setCommentList(commentByItemId);
+        });
         return travelRoutePage;
     }
 
