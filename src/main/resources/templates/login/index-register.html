@@ -53,39 +53,46 @@
                                 </label>
                             </section>
 
-                            <!--<section>-->
-                                <!--<label class="input">-->
-                                    <!--<i class="icon-append fa fa-lock"></i>-->
-                                    <!--<input required type="password" placeholder="确认密码">-->
-                                    <!--<b class="tooltip tooltip-bottom-right">请重复输入注册密码(必选)</b>-->
-                                <!--</label>-->
-                            <!--</section>-->
-                            <!--<section>-->
-                                <!--<label class="input">-->
-                                    <!--<i class="icon-append fa fa-building"></i>-->
-                                    <!--<input type="text" placeholder="单位">-->
-                                    <!--<b class="tooltip tooltip-bottom-right">请输入单位名称(可选)</b>-->
-                                <!--</label>-->
-                            <!--</section>-->
-                            <!--<div class="row">-->
-                                <!--<section class="col col-md-6">-->
-                                    <!--<label class="input">-->
-                                        <!--<i class="icon-append fa fa-key"></i>-->
-                                        <!--<input required type="text" placeholder="验证码">-->
-                                        <!--<b class="tooltip tooltip-bottom-right">输入验证码</b>-->
-                                    <!--</label>-->
-                                <!--</section>-->
-                                <!--<section class="col col-md-6">-->
-                                    <!--<label class="input med_toppadder5">-->
-                                        <!--<img src="images/vcode.jpg">-->
-                                        <!--<a class="change" href="javascript:void(0);">换一张</a>-->
-                                    <!--</label>-->
-                                <!--</section>-->
-                            <!--</div>-->
-                            <!--<section>-->
-                                <!--<label class="checkbox"><input type="checkbox" name="checkbox-inline"><i></i>我已经阅读并接受 <a-->
-                                        <!--href="javascript:void(0);">免责声明</a></label>-->
-                            <!--</section>-->
+                            <section>
+                                <label class="input">
+                                    <i class="icon-append fa fa-lock"></i>
+                                    <input name="password2" required type="password" placeholder="确认密码">
+                                    <b class="tooltip tooltip-bottom-right">请重复输入注册密码(必选)</b>
+                                </label>
+                            </section>
+                            <section>
+                                <label class="input">
+                                    <i class="icon-append fa fa-building"></i>
+                                    <input type="text" placeholder="身份证">
+                                    <b class="tooltip tooltip-bottom-right">请输入身份证(可选)</b>
+                                </label>
+                            </section>
+                            <section>
+                                <label class="input">
+                                    <i class="icon-append fa fa-building"></i>
+                                    <input type="text" placeholder="手机号">
+                                    <b class="tooltip tooltip-bottom-right">请输入手机号(可选)</b>
+                                </label>
+                            </section>
+<!--                            <div class="row">-->
+<!--                                <section class="col col-md-6">-->
+<!--                                    <label class="input">-->
+<!--                                        <i class="icon-append fa fa-key"></i>-->
+<!--                                        <input required type="text" placeholder="验证码">-->
+<!--                                        <b class="tooltip tooltip-bottom-right">输入验证码</b>-->
+<!--                                    </label>-->
+<!--                                </section>-->
+<!--                                <section class="col col-md-6">-->
+<!--                                    <label class="input med_toppadder5">-->
+<!--                                        <img src="images/vcode.jpg">-->
+<!--                                        <a class="change" href="javascript:void(0);">换一张</a>-->
+<!--                                    </label>-->
+<!--                                </section>-->
+<!--                            </div>-->
+                            <section>
+                                <label class="checkbox"><input type="checkbox" name="checkbox-inline"><i></i>我已经阅读并接受 <a
+                                        href="javascript:void(0);">免责声明</a></label>
+                            </section>
                         </fieldset>
 
 
@@ -102,17 +109,27 @@
     <script th:inline="javascript">
 
         function saveForm() {
-            // var username = $("input[name='username']").val();
-            // if ($.trim(username) == '') {
-            //     layer.msg("username不能为空");
-            // return;
-            // }
-            // var password = $("input[name='password']").val();
-            // console.log()
-            // if ($.trim(password) == '') {
-            //     layer.msg("password不能为空");
-            // return;
-            // }
+            var username = $("input[name='username']").val();
+            if ($.trim(username) == '') {
+                layer.msg("username不能为空");
+            return;
+            }
+            var password = $("input[name='password']").val();
+            console.log()
+            if ($.trim(password) == '') {
+                layer.msg("password不能为空");
+            return;
+            }
+            var password2 = $("input[name='password2']").val();
+            console.log()
+            if ($.trim(password2) == '') {
+                layer.msg("password不能为空");
+                return;
+            }
+            if(password2 != password){
+                layer.msg("两次密码输入不一致");
+                return;
+            }
             $.ajax({
                 url: '/travel/register',
                 data: $("#form-submit").serialize(),

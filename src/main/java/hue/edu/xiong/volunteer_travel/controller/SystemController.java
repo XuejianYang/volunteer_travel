@@ -5,7 +5,9 @@ import hue.edu.xiong.volunteer_travel.core.ResultGenerator;
 import hue.edu.xiong.volunteer_travel.model.*;
 import hue.edu.xiong.volunteer_travel.repository.UserCommentRepository;
 import hue.edu.xiong.volunteer_travel.repository.UserRepository;
+import hue.edu.xiong.volunteer_travel.repository.UserYuYueRepository;
 import hue.edu.xiong.volunteer_travel.service.SystemService;
+import hue.edu.xiong.volunteer_travel.service.UserYuYueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +30,8 @@ public class SystemController {
 
     @Autowired
     private UserCommentRepository userCommentRepository;
+    @Autowired
+    private UserYuYueRepository userYuYueRepository;
 
 
     @RequestMapping("")
@@ -162,7 +166,18 @@ public class SystemController {
         model.addAttribute("page", page);
         return "system/strategy/list";
     }
-
+    @RequestMapping("/yuyueUI")
+    public String yuyue(Model model,@PageableDefault(size = 10) Pageable pageable) {
+        Page<UserYuYue> page = userYuYueRepository.findAll(pageable);
+        model.addAttribute("page", page);
+        return "system/yuyue/list";
+    }
+    @RequestMapping("/deletYuyue")
+    @ResponseBody
+    public Result deletYuyue(String id) {
+        userYuYueRepository.deleteById(id);
+        return ResultGenerator.genSuccessResult();
+    }
     @RequestMapping("/getTravelStrategyById")
     @ResponseBody
     public Result getTravelStrategyById(String id) {

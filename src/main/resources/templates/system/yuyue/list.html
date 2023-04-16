@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+        layout:decorate="~{system/base/layout}">
+<div layout:fragment="content">
+    <div id="main" style="width: 600px;height:400px;">
+        sssssssss
+    </div>
+    <div class="container" style="width: 1400px">
+        <h1>国家博物馆游玩资讯管理</h1>
+        <div class="row clearfix">
+<!--            <form name="search-form" class="form-inline m-b-10 clearfix" th:action="@{/system/travelStrategyListUI}"-->
+<!--                  id="search-form">-->
+<!--            </form>-->
+
+            <!--<div align="right" style="float:right">
+                <button type="button" onclick="reset()" class="btn btn-default btn-warning">增加</button>
+            </div>-->
+            <div class="col-md-12 column">
+                <table class="table table-hover table-condensed">
+                    <thead>
+                    <tr>
+                        <th width="150px">预约人</th>
+                        <th width="700px">手机号</th>
+                        <th width="300px">日期</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="userYuyue:${page.content}">
+                        <td th:text="${userYuyue.name}"></td>
+                        <td th:text="${userYuyue.phone}"></td>
+                        <td th:text="${userYuyue.date}"></td>
+                        <td>
+                            <div  align="left">
+                                <button type="button" th:onclick="deletYuyue([[${userYuyue.id}]])" class="btn btn-default btn-success">删除</button>
+                            </div>
+                            <div  align="left">
+                                <button type="button" th:onclick="echart()" class="btn btn-default btn-success">统计</button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div th:insert="~{base/pageable}"></div>
+
+    </div>
+    <!--弹框-->
+    <script th:inline="javascript">
+
+        function deletYuyue(id) {
+
+            $.ajax({
+                url: '/travel/system/deletYuyue',
+                data: {id:id},
+                type: 'post',
+                dataType: 'json',
+                success: function (result) {
+                    if (result.code === 200) {
+                        window.location.reload();
+                    } else {
+                        layer.open({
+                            title: '错误提示',
+                            content: result.message
+                        });
+                    }
+                }
+            })
+        }
+        function echart() {
+
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('main'));
+
+            // 指定图表的配置项和数据
+            var option = {
+                title: {
+                    text: 'ECharts 入门示例'
+                },
+                tooltip: {},
+                legend: {
+                    data: ['销量']
+                },
+                xAxis: {
+                    data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
+                },
+                yAxis: {},
+                series: [
+                    {
+                        name: '销量',
+                        type: 'bar',
+                        data: [5, 20, 36, 10, 10, 20]
+                    }
+                ]
+            };
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        }
+
+    </script>
+</div>
+</html>
+
