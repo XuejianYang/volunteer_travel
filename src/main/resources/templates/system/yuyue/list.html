@@ -3,19 +3,22 @@
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
         layout:decorate="~{system/base/layout}">
 <div layout:fragment="content">
-    <div id="main" style="width: 600px;height:400px;">
-        sssssssss
-    </div>
     <div class="container" style="width: 1400px">
         <h1>国家博物馆游玩资讯管理</h1>
         <div class="row clearfix">
+            <div id="main" style="width: 600px;height:400px;">
+                <span> am<p th:text="${ampmTotal.am}"></p></span>
+                <span> pm <p th:text="${ampmTotal.pm}"></p></span>
+                <span> data <p th:text="${dateTotal.num}"></p></span>
+                <span> numb <p th:text="${dateTotal.date}"></p></span>
+            </div>
 <!--            <form name="search-form" class="form-inline m-b-10 clearfix" th:action="@{/system/travelStrategyListUI}"-->
 <!--                  id="search-form">-->
 <!--            </form>-->
 
-            <!--<div align="right" style="float:right">
-                <button type="button" onclick="reset()" class="btn btn-default btn-warning">增加</button>
-            </div>-->
+<!--            <div align="right" style="float:right">-->
+<!--                <button type="button" onclick="reset()" class="btn btn-default btn-warning">增加</button>-->
+<!--            </div>-->
             <div class="col-md-12 column">
                 <table class="table table-hover table-condensed">
                     <thead>
@@ -34,9 +37,6 @@
                         <td>
                             <div  align="left">
                                 <button type="button" th:onclick="deletYuyue([[${userYuyue.id}]])" class="btn btn-default btn-success">删除</button>
-                            </div>
-                            <div  align="left">
-                                <button type="button" th:onclick="echart()" class="btn btn-default btn-success">统计</button>
                             </div>
                         </td>
                     </tr>

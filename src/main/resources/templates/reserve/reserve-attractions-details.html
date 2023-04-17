@@ -68,14 +68,72 @@
                             <span>浏览次数：13</span>
                         </div>
 
+<!---->
 
 
 
-<!--                        <div class="reserve-image" th:each="img:${images}">-->
-<!--                            <div class="cy-ib-thumbnail pull-left">-->
-<!--                                <img th:src="@{'/images/'+ ${img} +'.jpg'}" class="image_fade" alt="">-->
+
+
+<!--                        <div class="row med_toppadder30">-->
+<!--                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">-->
+<!--                                <div class="cy-title">-->
+<!--                                    <h2>展馆推荐</h2>-->
+<!--                                    <div class="pull-right">-->
+
+<!--                                        <div class="main-tabs">-->
+<!--                                            <ul class="nav nav-tabs">-->
+<!--                                                <li>-->
+<!--                                                    <a th:href="@{/reserve/reserveHotelListUI}">更多 <i-->
+<!--                                                            class="fa fa-angle-right"></i></a>-->
+<!--                                                </li>-->
+<!--                                            </ul>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="main-cont">-->
+<!--                                    <div class="tab-content">-->
+<!--                                        <div class="tab-pane active" id="c01">-->
+<!--                                            <div id="oc-news" class="owl-carousel owl-theme">-->
+<!--&lt;!&ndash;                                                <div th:each="hotel:${top10Hotel}" class="item">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <div class="cy-news-post clearfix">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <div class="entry-image">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                            <a th:href="@{/reserve/hotelDetailsUI(id=${hotel.id})}"><img&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                    class="image_fade"&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                    th:src="@{'/images/'+ ${hotel.image} +'.jpg'}"&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                    alt="Image"></a>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <div class="entry-title">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                            <h4><a th:href="@{/reserve/hotelDetailsUI(id=${hotel.id})}"&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                   data-toggle="tooltip"&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                   data-container="body"&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                   th:title="${hotel.name}" th:text="${hotel.name}"></a>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                            </h4>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <div class="entry-content">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                            <p th:text="${hotel.describe}">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                            </p>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <ul class="entry-meta clearfix">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                            <li th:text="${#calendars.format(hotel.createDate,'yyyy-MM-dd')}"><i&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                    class="fa fa-calendar"></i></li>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        </ul>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                </div>?&ndash;&gt;-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
 <!--                            </div>-->
 <!--                        </div>-->
+
+                        <div class="reserve-image" th:each="img:${images}">
+                            <div style="display: flex;flex-wrap: nowrap;margin:10px">
+                                <div style="flex: 1">
+                                <img th:src="@{'/images/'+ ${img} +'.jpg'}" width="250px" height="200px"  class="image_fade" alt="">
+                                </div>
+                            </div>
+                        </div>
 
 
                         <div class="news-detail-content">

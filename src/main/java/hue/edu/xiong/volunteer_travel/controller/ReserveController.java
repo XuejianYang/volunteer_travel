@@ -123,8 +123,9 @@ public class ReserveController {
         model.addAttribute("attractions", attractions);
         model.addAttribute("numb", likeList.size());
         model.addAttribute("commentList", commentList);
-
+        List<String> strings = Arrays.asList(attractions.getImages().split(","));
         model.addAttribute("flag", flag);
+        model.addAttribute("images",strings);
         return "reserve/reserve-attractions-details";
     }
 

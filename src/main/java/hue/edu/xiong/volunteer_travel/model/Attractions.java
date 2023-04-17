@@ -2,6 +2,7 @@ package hue.edu.xiong.volunteer_travel.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "attractions")
@@ -12,6 +13,8 @@ public class Attractions {
     private String id;
     @Column(name = "image")
     private String image;
+    @Column(name = "images")
+    private String images;
     @Column(name = "attractionsName")
     private String name;
     @Column(name = "attractionsAddress")
@@ -26,6 +29,24 @@ public class Attractions {
     private Integer likeNum;
     @Transient
     private Integer preNum;
+    @Transient
+    private List<String> imageList;
+
+    public String getImages() {
+        return images;
+    }
+
+    public void setImages(String images) {
+        this.images = images;
+    }
+
+    public List<String> getImageList() {
+        return imageList;
+    }
+
+    public void setImageList(List<String> imageList) {
+        this.imageList = imageList;
+    }
 
     public Integer getLikeNum() {
         return likeNum;

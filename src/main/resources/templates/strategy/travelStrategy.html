@@ -15,7 +15,7 @@
                         <div class="med_tittle_cont">
                             <ol class="breadcrumb">
                                 <li><a th:href="@{/}">系统首页</a></li>
-                                <li><a th:href="@{/strategy/travelStrategyListUI}">景区游玩路线列表</a></li>
+                                <li><a th:href="@{/strategy/travelStrategyListUI}">博物馆资讯列表</a></li>
                             </ol>
                         </div>
                     </div>
@@ -32,7 +32,7 @@
                     <div class="filter-type-box cy-tabs">
                         <ul class="nav nav-tabs mb-10">
                             <li class="active">
-                                <a th:href="@{/strategy/travelStrategyListUI}"><i class="fa"></i>攻略列表</a>
+                                <a th:href="@{/strategy/travelStrategyListUI}"><i class="fa"></i>资讯列表</a>
                             </li>
                             <li class="pull-right">
                                 <div class="search-tags">
@@ -55,6 +55,11 @@
                     <div th:each="travelStrategy:${page.content}" class="cy-news-grid-item">
                         <div class="cy-media-body">
                             <div class="cy-grid-body">
+                                <div class="time" style="width:84px;height: 84px;background: #f2f2f2;
+                                color:#666;float: left;display: flex;align-items: center;flex-direction: column;
+                                justify-content: center;margin-right:10px">
+                                    <p>13</p><span>2028/08</span></div>
+<!--                                <p>13</p><span th:text="${travelStrategy.createDate}"></span></div>-->
                                 <h5><a th:href="@{/strategy/travelStrategyDetailsUI(id=${travelStrategy.id})}"
                                        th:text="'资讯名称 : ' + ${travelStrategy.title}"></a></h5>
                                 <small th:text="${travelStrategy.describe}">
