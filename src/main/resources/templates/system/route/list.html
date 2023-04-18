@@ -21,10 +21,10 @@
                     <tr>
                         <th width="150px">名称</th>
                         <th width="150px">位置</th>
-                        <th width="300px">描述</th>
+                        <th>描述</th>
                         <th width="100px">点赞</th>
                         <th width="100px">收藏</th>
-                        <th>操作</th>
+                        <th >操作</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -32,17 +32,17 @@
                         <td th:text="${travelRoute.name}"></td>
                         <td th:text="${travelRoute.address}"></td>
                         <td>
-                            <textarea cols="60px" rows="3px" th:text="${travelRoute.describe}"></textarea>
+                            <textarea cols="80px" rows="3px" th:text="${travelRoute.describe}"></textarea>
                         </td>
 <!--                        <td th:text="${travelRoute.describe}"></td>-->
                         <td th:text="${travelRoute.likeNum}"></td>
                         <td th:text="${travelRoute.preNum}"></td>
-                        <td>
-                            <div align="left" style="float:left">
+                        <td style="display: flex">
+                            <div align="left" style="float:left ;flex: 1">
                                 <button type="button" th:onclick="updateMember([[${travelRoute.id}]])" class="btn btn-default btn-info">修改</button>
                             </div>
 
-                            <div align="left" style="float:left">
+                            <div align="left" style="float:left ;flex: 1">
                                 <button type="button" th:onclick="commentReset([[${travelRoute.id}]])" class="btn btn-default btn-info">评论</button>
                             </div>
                             <div th:if="${travelRoute.status == 0}" align="left">
@@ -67,10 +67,12 @@
                                             <div th:each="comment:${travelRoute.commentList}" class="cy-news-grid-item">
                                                 <div class="cy-media-body">
                                                     <div class="cy-grid-body">
-                                                        <span  th:text="${comment.userName}">：</span>
-                                                        <span th:text="${comment.createTime}"></span>
-                                                        <small th:text="${comment.content}"></small>
-                                                        <button type="button" class="btn btn-info"  th:onclick="deleteComment([[${comment.id}]])">删除</button>
+                                                        <span style=" font-family: PingFang SC, sans-serif;font-weight: 500;color: red;font-size: large "
+                                                                th:text="${comment.userName}+' :'">：</span>
+                                                        <span th:text="${comment.createTime}" style="color: #9499A0;"></span>
+                                                        <span th:text="${comment.content}" style="margin-left: 50px"></span>
+                                                        <button type="button" class=" btn-info" style="float: right" th:onclick="deleteComment([[${comment.id}]])">删除</button>
+
                                                     </div>
                                                 </div>
                                             </div>

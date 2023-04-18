@@ -85,14 +85,16 @@
                                 </button>
 
                             </div>
-                            <!--评论--><br>
-                            <!--评论--><br>
+
+                            <!--评论-->
+                            <!--评论--><br><br>
                             <div th:each="comment:${commentList}" class="cy-news-grid-item">
                                 <div class="cy-media-body">
                                     <div class="cy-grid-body">
-                                        <span  th:text="${comment.userName}">：</span>
-                                        <span th:text="${comment.createTime}"></span>
-                                        <small th:text="${comment.content}"></small>
+                                        <strong style=" font-family: PingFang SC, sans-serif;font-weight: 500;color: red;font-size: large "
+                                                th:text="${comment.userName}+' :'">：</strong>
+                                        <span th:text="${comment.createTime}" style="color: #9499A0;float: right"></span>
+                                        <p th:text="${comment.content}" style="margin-left: 50px"></p>
                                     </div>
                                 </div>
                             </div>
