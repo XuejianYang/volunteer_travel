@@ -89,13 +89,11 @@ public class ReserveController {
     }
     @RequestMapping("/yuyue")
     public String yuyue(Model model) {
-//        Page<Attractions> page = reserveService.reserveAttractionsListUI(searchName,pageable);
-//        List<Hotel> top10Hotel = reserveService.getTop10Hotel();
-//        List<Attractions> top10Attractions = reserveService.getTop10Attractions();
-//        model.addAttribute("top10Hotel", top10Hotel);
-//        model.addAttribute("top10Attractions", top10Attractions);
-//        model.addAttribute("page", page);
         return "reserve/calendar";
+    }
+    @RequestMapping("/yuyueUI")
+    public String yuyueUI(Model model) {
+        return "reserve/yue";
     }
     @ResponseBody
     @RequestMapping("/saveYuyue")

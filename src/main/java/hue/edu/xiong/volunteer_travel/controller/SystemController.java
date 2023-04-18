@@ -182,17 +182,12 @@ public class SystemController {
             List<UserYuYue> yuYueList = listMap.get(s);
             YuYueDateNum yuYueDateNum = new YuYueDateNum();
             yuYueDateNum.setDate(s);
-            yuYueDateNum.setNum(yuYueList.size()+"");
+            yuYueDateNum.setNum(yuYueList.size());
             yuYueResultList.add(yuYueDateNum);
             if(yuYueResultList.size()>7){
                 break;
             }
-        }
-        String dateStr = yuYueResultList.stream().map(s -> s.getDate()).collect(Collectors.joining(","));
-        String numStr = yuYueResultList.stream().map(s -> s.getNum()).collect(Collectors.joining(","));
-        YuYueDateNum result = new YuYueDateNum();
-        result.setNum(numStr);
-        result.setDate(dateStr);
+        };
         // pm  am
         Long amCount = content.stream().filter(s -> s.getDuring() == 0).count();
         Long pmCount = content.size() - amCount;
@@ -200,9 +195,37 @@ public class SystemController {
         yuYueNum.setAm(amCount.intValue());
         yuYueNum.setPm(pmCount.intValue());
         model.addAttribute("page", page);
-        model.addAttribute("dateTotal", result);
         model.addAttribute("ampmTotal", yuYueNum);
         return "system/yuyue/list";
+    }
+    @RequestMapping("/yuyueZhu")
+    @ResponseBody
+    public Result yuyueZhu() {
+        List<UserYuYue> all = userYuYueRepository.findAll();
+        Map<String, List<UserYuYue>> listMap = all.stream().collect(Collectors.groupingBy(s -> s.getDate()));
+        List<YuYueDateNum> yuYueDateNums = new ArrayList<>();
+        for (String s:listMap.keySet()){
+            YuYueDateNum yuYueDateNum = new YuYueDateNum();
+            yuYueDateNum.setDate(s);
+            yuYueDateNum.setNum(listMap.get(s).size());
+            yuYueDateNums.add(yuYueDateNum);
+        }
+        return ResultGenerator.genSuccessResult(yuYueDateNums);
+    }
+    @RequestMapping("/pie")
+    @ResponseBody
+    public Result pie() {
+        List<UserYuYue> all = userYuYueRepository.findAll();
+        Long amCount = all.stream().filter(s -> s.getDuring() == 0).count();
+        Long pmCount = all.size() - amCount;
+        YuYueNum yuYueNum = new YuYueNum();
+        yuYueNum.setAm(amCount.intValue());
+        yuYueNum.setPm(pmCount.intValue());
+        return ResultGenerator.genSuccessResult(yuYueNum);
+    }
+    @RequestMapping("/yuyueZhuUI")
+    public String yuyueZhuUI(Model model) {
+        return "system/yuyue/charts";
     }
     @RequestMapping("/deletYuyue")
     @ResponseBody

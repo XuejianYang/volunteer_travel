@@ -1034,7 +1034,11 @@ ul ul > li.has-sub > a:before {
     position: relative;
     top: -60px;
 }
+.slider_wrapper3 {
+    background: url('../images/wrap_2_bg2.jpg');
+    width: 520px; height: auto; overflow: hidden; float: right; margin: 40px 400px 0 0;
 
+}
 .sp-black {
     background: rgba(0, 0, 0, .15)
 }
