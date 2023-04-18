@@ -2,20 +2,22 @@ package hue.edu.xiong.volunteer_travel.service;
 
 import hue.edu.xiong.volunteer_travel.core.Result;
 import hue.edu.xiong.volunteer_travel.core.ResultGenerator;
-import hue.edu.xiong.volunteer_travel.model.User;
-import hue.edu.xiong.volunteer_travel.model.UserLike;
-import hue.edu.xiong.volunteer_travel.model.UserYuYue;
-import hue.edu.xiong.volunteer_travel.model.YuYueNum;
+import hue.edu.xiong.volunteer_travel.model.*;
 import hue.edu.xiong.volunteer_travel.repository.UserRepository;
 import hue.edu.xiong.volunteer_travel.repository.UserYuYueRepository;
 import hue.edu.xiong.volunteer_travel.util.CookieUitl;
 import hue.edu.xiong.volunteer_travel.util.IdGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.util.StringUtils;
 
+import javax.persistence.criteria.Predicate;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,6 +34,25 @@ public class UserYuYueService {
 
     @Autowired
     private UserRepository userRepository;
+
+
+
+    public Page<UserYuYue> userYuYuePage(String searchName, Pageable pageable) {
+        //查询启用的景点列表
+        Page<UserYuYue> attractionsPage = userYuYueRepository.findAll((root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            //status状态,查询状态为0,启动的景点
+//            predicates.add((cb.equal(root.get("status"), 0)));
+            //景点name模糊查询
+            if (!StringUtils.isEmpty(searchName)) {
+                predicates.add((cb.like(root.get("name"), "%" + searchName + "%")));
+            }
+            query.where(predicates.toArray(new Predicate[]{}));
+//            query.orderBy(cb.desc(root.get("createDate")));
+            return null;
+        }, pageable);
+        return attractionsPage;
+    }
 
     @Transactional(rollbackFor = Exception.class)
     public Result saveYuYue(HttpServletRequest request, List<UserYuYue> yuYueList) {
@@ -51,6 +72,16 @@ public class UserYuYueService {
     public Result getYuyueList() {
         List<UserYuYue> all = userYuYueRepository.findAll();
         return ResultGenerator.genSuccessResult(all);
+    }
+    @Transactional(rollbackFor = Exception.class)
+    public Result getYuyueListByCard(String card) {
+        List<UserYuYue> all = userYuYueRepository.findUserYuYueByCard(card);
+        return ResultGenerator.genSuccessResult(all);
+    }
+    @Transactional(rollbackFor = Exception.class)
+    public  List<UserYuYue> getYuyueListByName(String name) {
+        List<UserYuYue> all = userYuYueRepository.findUserYuYueByName(name);
+        return all;
     }
     @Transactional(rollbackFor = Exception.class)
     public Result getYuyueNum( String date) {

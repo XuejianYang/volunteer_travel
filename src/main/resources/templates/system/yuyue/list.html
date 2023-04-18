@@ -27,6 +27,7 @@
                             </div>
                         </td>
                     </tr>
+
                     <tr>
                         <div id="aa">
                             <iframe noresize="noresize"
@@ -37,9 +38,9 @@
                     </tr>
                     </tbody>
                 </table>
+                <div th:insert="~{base/pageable}"></div>
             </div>
         </div>
-        <div th:insert="~{base/pageable}"></div>
 
     </div>
     <!--弹框-->
@@ -64,7 +65,12 @@
                 }
             })
         }
-
+        $('.filter-type-box span a').click(function () {
+            if ($(this).hasClass('active'))
+                $(this).removeClass('active')
+            else
+                $(this).addClass('active')
+        });
     </script>
 </div>
 </html>

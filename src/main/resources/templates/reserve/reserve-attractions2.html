@@ -36,7 +36,7 @@
                             </li>
                             <li class="pull-right">
                                 <div class="search-tags">
-                                    <form th:action="@{/reserve/reserveAttractionsListUI}" methed="post" name="search-form"  id="search-form" class="form-inline">
+                                    <form th:action="@{/reserve/reserveAttractionsListUI2}" methed="post" name="search-form"  id="search-form" class="form-inline">
                                         <div class="input-group">
                                             <input type="text" name="searchName" th:value="${searchName}" class="form-control">
                                             <span class="input-group-btn">
@@ -49,7 +49,7 @@
                         </ul>
                     </div>
 
-                    <div th:each="attractions:${page.content}" class="cy-news-grid-item">
+                    <div th:each="attractions:${page}" class="cy-news-grid-item">
                         <div class="cy-news-thumbnail pull-left">
                             <a th:href="@{/reserve/attractionsDetailsUI(id=${attractions.id})}">
                                 <img th:src="@{'/images/'+ ${attractions.image} +'.jpg'}"  class="image_fade" alt="">

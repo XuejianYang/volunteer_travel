@@ -13,6 +13,8 @@ public interface UserYuYueRepository extends JpaRepository<UserYuYue, String>, J
 
 
     List<UserYuYue> findUserYuYueByDate(String date);
+    List<UserYuYue> findUserYuYueByCard(String card);
+    List<UserYuYue> findUserYuYueByName(String name);
 
     void deleteById(String id);
 }

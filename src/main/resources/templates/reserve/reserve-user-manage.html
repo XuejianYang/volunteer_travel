@@ -26,48 +26,39 @@
         <div class="container">
             <div class="row med_toppadder50 med_bottompadder50">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <h1>酒店预订管理</h1>
-                    <div class="cy-news-grid-item" th:each="userHotel:${userHotelList}">
-                        <div class="cy-ib-thumbnail pull-left">
-                            <a th:href="@{/reserve/hotelDetailsUI(id=${userHotel.hotel.id})}">
-                                <img th:src="@{'/images/'+ ${userHotel.hotel.image} +'.jpg'}" class="image_fade" alt="">
-                            </a>
-                        </div>
+                    <h1>我的预约</h1>
+                    <div class="cy-news-grid-item" th:each="yuYue:${yuYueList}">
+<!--                        <div class="cy-ib-thumbnail pull-left">-->
+<!--                            <a th:href="@{/reserve/hotelDetailsUI(id=${yuYue.id})}">-->
+<!--                                <img th:src="@{'/images/'+ ${yuYue.id} +'.jpg'}" class="image_fade" alt="">-->
+<!--                            </a>-->
+<!--                        </div>-->
                         <div class="booklet-cont">
-                            <h5><a th:href="@{/reserve/hotelDetailsUI(id=${userHotel.hotel.id})}"
-                                   th:text="'酒店预约: ' + ${userHotel.hotel.name}"></a></h5>
+                            <h5><a th:href="@{/reserve/hotelDetailsUI(id=${yuYue.id})}"
+                                   th:text="'预约人: ' + ${yuYue.name}"></a></h5>
+                            <br>
                             <div class="cy-summary-intro">
-                                <p th:text="${userHotel.hotel.describe}">
+                                <p th:text="'预约时间: ' + ${yuYue.date}">
                                 </p>
-                                <a href="javascript:void(0);">更多</a>
+                                <span th:if="${yuYue.during == 0}" align="left">
+                                    <p> 上午</p>
+
+                                </span>
+                                <span th:if="${yuYue.during == 1}" align="left">
+                                    <p> 下午</p>
+                                </span>
                             </div>
-                            <div class="text-right"><a th:onclick="cancelReserve([[${userHotel.hotel.id}]])"
+
+
+                            <div class="text-right"><a th:onclick="deletYuyue([[${yuYue.id}]])"
                                                        class="btn btn-info btn-sm">取消预约</a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <h1>展厅预订管理</h1>
-                    <div class="cy-news-grid-item" th:each="userAttractions:${userAttractionsList}">
-                        <div class="cy-ib-thumbnail pull-left">
-                            <a th:href="@{/reserve/attractionsDetailsUI(id=${userAttractions.attractions.id})}">
-                                <img th:src="@{'/images/'+ ${userAttractions.attractions.image} +'.jpg'}" class="image_fade" alt="">
-                            </a>
-                        </div>
-                        <div class="booklet-cont">
-                            <h5><a th:href="@{/reserve/attractionsDetailsUI(id=${userAttractions.attractions.id})}"
-                                   th:text="'景点预约: ' + ${userAttractions.attractions.name}"></a></h5>
-                            <div class="cy-summary-intro">
-                                <p th:text="${userAttractions.attractions.describe}">
-                                </p>
-                                <a href="javascript:void(0);">更多</a>
-                            </div>
-                            <div class="text-right"><a th:onclick="cancelAttractionsReserve([[${userAttractions.attractions.id}]])"
-                                                       class="btn btn-info btn-sm">取消预约</a>
-                            </div>
-                        </div>
-                    </div>
+<!--                    <h1>展厅预订管理</h1>-->
+
                 </div>
             </div>
         </div>
@@ -103,10 +94,10 @@
             })
         }
 
-        function cancelAttractionsReserve(id) {
+        function deletYuyue(id) {
             $.ajax({
-                url: '/travel/reserve/cancelAttractionsReserve',
-                data: {"id": id},
+                url: '/travel/system/deletYuyue',
+                data: {id:id},
                 type: 'post',
                 dataType: 'json',
                 success: function (result) {

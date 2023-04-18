@@ -37,6 +37,9 @@ public class SystemController {
     @Autowired
     private UserYuYueRepository userYuYueRepository;
 
+    @Autowired
+    private UserYuYueService userYuYueService;
+
 
     @RequestMapping("")
     public String loginUI() {
@@ -108,7 +111,7 @@ public class SystemController {
     }
 
     @RequestMapping("/attractionsListUI")
-    public String attractionsListUI(Model model, @PageableDefault(size = 10) Pageable pageable) {
+    public String attractionsListUI(Model model, @PageableDefault(size = 4) Pageable pageable) {
         Page<Attractions> page = systemService.getAttractionsPage(pageable);
         model.addAttribute("page", page);
         return "system/attractions/list";
@@ -171,8 +174,8 @@ public class SystemController {
         return "system/strategy/list";
     }
     @RequestMapping("/yuyueUI")
-    public String yuyue(Model model,@PageableDefault(size = 10) Pageable pageable) {
-        Page<UserYuYue> page = userYuYueRepository.findAll(pageable);
+    public String yuyue(Model model,@PageableDefault(size = 8) Pageable pageable) {
+        Page<UserYuYue> page = userYuYueService.userYuYuePage(null,pageable);
         //
         List<UserYuYue> content = page.getContent();
         Map<String, List<UserYuYue>> listMap = content.stream().collect(Collectors.groupingBy(s -> s.getDate()));

@@ -6,6 +6,7 @@ import hue.edu.xiong.volunteer_travel.core.ResultGenerator;
 import hue.edu.xiong.volunteer_travel.model.*;
 import hue.edu.xiong.volunteer_travel.repository.LikeRepository;
 import hue.edu.xiong.volunteer_travel.repository.UserCommentRepository;
+import hue.edu.xiong.volunteer_travel.repository.UserRepository;
 import hue.edu.xiong.volunteer_travel.service.ReserveService;
 import hue.edu.xiong.volunteer_travel.service.UserYuYueService;
 import hue.edu.xiong.volunteer_travel.util.CookieUitl;
@@ -37,6 +38,9 @@ public class ReserveController {
     @Autowired
     private UserYuYueService userYuYueService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @RequestMapping("/reserveHotelListUI")
     public String reserveHotelListUI(Model model, @ModelAttribute("searchName") String searchName, @PageableDefault(size = 10) Pageable pageable) {
         Page<Hotel> page = reserveService.reserveHotelListUI(searchName, pageable);
@@ -64,10 +68,12 @@ public class ReserveController {
 
     @RequestMapping("/reserveManageUI")
     public String reserveManageUI(Model model, HttpServletRequest request) {
-        List<UserHotel> userHotelList = reserveService.getReserveHotelByUser(request);
-        List<UserAttractions> userAttractionsList = reserveService.getReserveAttractionsByUser(request);
-        model.addAttribute("userHotelList", userHotelList);
-        model.addAttribute("userAttractionsList",userAttractionsList);
+        Cookie cookie = CookieUitl.get(request, "username");
+        List<UserYuYue> yuyueListByName = new ArrayList<>();
+        if (cookie != null) {
+            yuyueListByName = userYuYueService.getYuyueListByName(cookie.getValue());
+        }
+        model.addAttribute("yuYueList",yuyueListByName);
         return "reserve/reserve-user-manage";
     }
 
@@ -78,7 +84,7 @@ public class ReserveController {
     }
 
     @RequestMapping("/reserveAttractionsListUI")
-    public String reserveAttractionsListUI(Model model, @ModelAttribute("searchName") String searchName, @PageableDefault(size = 10) Pageable pageable) {
+    public String reserveAttractionsListUI(Model model, @ModelAttribute("searchName") String searchName, @PageableDefault(size = 4) Pageable pageable) {
         Page<Attractions> page = reserveService.reserveAttractionsListUI(searchName,pageable);
         List<Hotel> top10Hotel = reserveService.getTop10Hotel();
         List<Attractions> top10Attractions = reserveService.getTop10Attractions();
@@ -86,6 +92,16 @@ public class ReserveController {
         model.addAttribute("top10Attractions", top10Attractions);
         model.addAttribute("page", page);
         return "reserve/reserve-attractions";
+    }
+    @RequestMapping("/reserveAttractionsListUI2")
+    public String reserveAttractionsListUI2(Model model2, @ModelAttribute("searchName") String searchName, @PageableDefault(size = 4,page = 1) Pageable pageable) {
+        Page<Attractions> page = reserveService.reserveAttractionsListUI(searchName,pageable);
+        List<Hotel> top10Hotel = reserveService.getTop10Hotel();
+        List<Attractions> top10Attractions = reserveService.getTop10Attractions();
+        model2.addAttribute("top10Hotel", top10Hotel);
+        model2.addAttribute("top10Attractions", top10Attractions);
+        model2.addAttribute("page", page);
+        return "reserve/reserve-attractions2";
     }
     @RequestMapping("/yuyue")
     public String yuyue(Model model) {
