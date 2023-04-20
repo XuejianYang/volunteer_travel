@@ -43,7 +43,7 @@ public class ReserveService {
     @Autowired
     private UserAttractionsRepository userAttractionsRepository;
 
-    public Page<Hotel> reserveHotelListUI(String searchName, Pageable pageable) {
+    public Page<Hotel> reserveHotelListUI(String searchName,String type ,Pageable pageable) {
         //查询启用的酒店列表
         Page<Hotel> hotelPage = hotelRepository.findAll((root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -52,6 +52,9 @@ public class ReserveService {
             //酒店name模糊查询
             if (!StringUtils.isEmpty(searchName)) {
                 predicates.add((cb.like(root.get("name"), "%" + searchName + "%")));
+            }
+            if (!StringUtils.isEmpty(type)) {
+                predicates.add((cb.like(root.get("type"), "%" + type + "%")));
             }
             query.where(predicates.toArray(new Predicate[]{}));
             query.orderBy(cb.desc(root.get("createDate")));

@@ -42,8 +42,8 @@ public class ReserveController {
     private UserRepository userRepository;
 
     @RequestMapping("/reserveHotelListUI")
-    public String reserveHotelListUI(Model model, @ModelAttribute("searchName") String searchName, @PageableDefault(size = 10) Pageable pageable) {
-        Page<Hotel> page = reserveService.reserveHotelListUI(searchName, pageable);
+    public String reserveHotelListUI(Model model, @ModelAttribute("searchName") String searchName,@ModelAttribute("type") String type, @PageableDefault(size = 10) Pageable pageable) {
+        Page<Hotel> page = reserveService.reserveHotelListUI(searchName,type, pageable);
         List<Hotel> top10Hotel = reserveService.getTop10Hotel();
         List<Attractions> top10Attractions = reserveService.getTop10Attractions();
         model.addAttribute("top10Hotel", top10Hotel);
@@ -76,6 +76,16 @@ public class ReserveController {
         model.addAttribute("yuYueList",yuyueListByName);
         return "reserve/reserve-user-manage";
     }
+    @RequestMapping("/reserveManageUI2")
+    public String reserveManageUI2(Model model, HttpServletRequest request) {
+        Cookie cookie = CookieUitl.get(request, "username");
+        List<UserYuYue> yuyueListByName = new ArrayList<>();
+        if (cookie != null) {
+            yuyueListByName = userYuYueService.getYuyueListByName(cookie.getValue());
+        }
+        model.addAttribute("yuYueList",yuyueListByName);
+        return "reserve/reserve-user-manage2";
+    }
 
     @RequestMapping("/cancelReserve")
     @ResponseBody
@@ -103,6 +113,10 @@ public class ReserveController {
         model2.addAttribute("page", page);
         return "reserve/reserve-attractions2";
     }
+//    @RequestMapping("/hotel")
+//    public String hotel(Model model) {
+//        return "reserve/calendar";
+//    }
     @RequestMapping("/yuyue")
     public String yuyue(Model model) {
         return "reserve/calendar";

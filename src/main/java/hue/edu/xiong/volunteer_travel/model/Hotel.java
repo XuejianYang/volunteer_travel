@@ -21,6 +21,8 @@ public class Hotel {
     private String address;
     @Column(name = "hotelDescribe")
     private String describe;
+    @Column(name = "type")
+    private String type;
     @Column(name = "HotelStatus")
     private Integer status;
     @Column(name = "createDate")
@@ -80,5 +82,13 @@ public class Hotel {
 
     public void setDescribe(String describe) {
         this.describe = describe;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

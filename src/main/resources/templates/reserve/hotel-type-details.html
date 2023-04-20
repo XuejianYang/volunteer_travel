@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+        layout:decorate="~{base/layout}">
+
+<div layout:fragment="content">
+    <!--header wrapper end-->
+    <!--med_tittle_section-->
+    <div class="med_tittle_section">
+        <div class="med_img_overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="med_tittle_cont_wrapper">
+                        <div class="med_tittle_cont">
+                            <ol class="breadcrumb">
+                                <li><a th:href="@{/}">系统首页</a></li>
+                                <li>景点列表</li>
+                                <li>预订</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- med_tittle_section End -->
+    <!--service section start-->
+    <div class="page-container">
+        <div class="container">
+
+            <div class="row med_toppadder50 med_bottompadder50">
+                <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
+                    <div class="news-detail-box">
+<!--                        <h3 th:text="${attractions.name}"></h3>-->
+
+                        <div class="reserve-image" th:each="hotel:${page.content}">
+                            <div style="display: flex;flex-wrap: nowrap;margin:10px">
+                                <div style="flex: 1">
+                                <img th:src="@{'/images/'+ ${hotel.image} +'.jpg'}" width="250px" height="200px"  class="image_fade" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                    <div class="sider-card">
+                        <div class="sider-card-header">
+                            <h3>热门展览</h3>
+                        </div>
+                        <ul class="sider-list-model-a">
+                            <li th:each="attractions:${top10Attractions}">
+                                <a th:href="@{/reserve/attractionsDetailsUI(id=${attractions.id})}" th:text="${attractions.name}"></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="sider-card">
+                        <div class="sider-card-header">
+                            <h3>热门藏品</h3>
+                        </div>
+                        <ul class="sider-list-model-b">
+                            <li th:each="hotel:${top10Hotel}">
+                                <a th:href="@{/reserve/hotelDetailsUI(id=${hotel.id})}" th:text="${hotel.name}"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--service section end-->
+    <script th:inline="javascript">
+        function cancelAttractionsReserve(id, str) {
+            $.ajax({
+                url: '/travel/reserve/cancelAttractionsReserve',
+                data: {"id": id},
+                type: 'post',
+                dataType: 'json',
+                success: function (result) {
+                    if (result.code === 200) {
+                        if(str == '收藏'){
+                            // confirm(str + "成功!"); //在页面上弹出对话框
+                            window.location.reload();
+                        }else{
+                            // confirm(str + "成功!"); //在页面上弹出对话框
+                            window.location.reload();
+                        }
+                    } else {
+                        layer.open({
+                            title: '错误提示',
+                            content: result.message
+                        });
+                    }
+                }
+            })
+        }
+
+        function like(id, str) {
+            $.ajax({
+                url: '/travel/like/save',
+                data: {"id": id},
+                type: 'post',
+                dataType: 'json',
+                success: function (result) {
+                    if (result.code === 200) {
+                        if(str == '点赞'){
+                            // confirm(str + "成功!"); //在页面上弹出对话框
+                            window.location.reload();
+                        }
+                    } else {
+                        layer.open({
+                            title: '错误提示',
+                            content: result.message
+                        });
+                    }
+                }
+            })
+        }
+
+        function reset() {
+            //全部清空
+            $('#exampleModalLabel').text('新增评论');
+            $('#content').val('');
+            //显示模态框
+            $('#exampleModal').modal('show')
+        }
+
+        function userComment(id, str) {
+            $("#content")
+            $.ajax({
+                url: '/travel/comment/save',
+                data: {"itemId": id, "content":$("#content").val()},
+                type: 'post',
+                dataType: 'json',
+                success: function (result) {
+                    if (result.code === 200) {
+                        if(str == '评论'){
+                            // confirm(str + "成功!"); //在页面上弹出对话框
+                            window.location.reload();
+                        }
+                    } else {
+                        layer.open({
+                            title: '错误提示',
+                            content: result.message
+                        });
+                    }
+                }
+            })
+        }
+    </script>
+</div>
+
+</html>

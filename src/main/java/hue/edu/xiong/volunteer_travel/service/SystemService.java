@@ -202,7 +202,8 @@ public class SystemService {
             attractions.setStatus(StatusEnum.DOWM_STATUS.getCode());
             attractions.setCreateDate(new Date());
             int i = random.nextInt(100);
-            attractions.setImage("MY_jingdian_0" + (i % 8 + 1));
+            String images = attractions.getImage();
+            attractions.setImage(images.substring(0,images.lastIndexOf(".")));
         } else {
             //有id的情况
             Attractions oldAttractions = getAttractionsById(attractions.getId());

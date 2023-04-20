@@ -39,12 +39,12 @@
                             <div align="left" style="float:left">
                                 <button type="button" th:onclick="updateMember([[${attractions.id}]])" class="btn btn-default btn-info">修改</button>
                             </div>
-                            <div th:if="${attractions.status == 0}" align="left">
+                            <div  align="left">
                                 <button type="button" th:onclick="updateAttractionsStatus([[${attractions.id}]])" class="btn btn-default btn-danger">删除</button>
                             </div>
-                            <div th:if="${attractions.status == 1}" align="left">
-                                <button type="button" th:onclick="updateAttractionsStatus([[${attractions.id}]])" class="btn btn-default btn-success">撤销删除</button>
-                            </div>
+<!--                            <div th:if="${attractions.status == 1}" align="left">-->
+<!--                                <button type="button" th:onclick="updateAttractionsStatus([[${attractions.id}]])" class="btn btn-default btn-success">撤销删除</button>-->
+<!--                            </div>-->
                         </td>
                     </tr>
                     </tbody>
@@ -93,6 +93,14 @@
                                 </textarea>
                             </div>
                         </div>
+                        <div class="form-group m-b-10" style="text-align:right">
+                            <label class="col-sm-4 control-label">
+                                选择图片:
+                            </label>
+                            <div class="col-sm-7">
+                                <input type="file" class="form-control" id="image" name="image">
+                            </div>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -116,6 +124,12 @@
             $('#describe').val('');
             //显示模态框
             $('#exampleModal').modal('show')
+        }
+        function getSelectedImageName(inputFileElement) {
+            if (!inputFileElement || !inputFileElement.files || inputFileElement.files.length === 0) {
+                return null; // 没有选择图片文件，返回null
+            }
+            return inputFileElement.files[0].name; // 返回第一个选择的文件的名称
         }
 
         function updateMember(id) {
@@ -146,7 +160,7 @@
 
         function updateAttractionsStatus(id) {
             $.ajax({
-                url: '/travel/system/updateAttractionsStatus',
+                url: '/travel/system/deleteAttractions',
                 data: {"id": id},
                 type: 'post',
                 dataType: 'json',
@@ -169,18 +183,19 @@
             //address
             var address = $('#address').val();
 
-
+            var image =getSelectedImageName(document.getElementById('image'));
+            var describe = $('#describe').val();
             if ($.trim(name) === '') {
-                layer.msg("酒店名不能为空");
+                layer.msg("名称不能为空");
                 return;
             }
             if ($.trim(address) === '') {
-                layer.msg("酒店地址不能为空!");
+                layer.msg("地址不能为空!");
                 return;
             }
             $.ajax({
                 url: '/travel/system/saveAttractions',
-                data: $("#insertMember").serialize(),
+                data: {name:name,address:address,describe:describe,image:image},
                 type: 'post',
                 dataType: 'json',
                 success: function (result) {

@@ -3,9 +3,7 @@ package hue.edu.xiong.volunteer_travel.controller;
 import hue.edu.xiong.volunteer_travel.core.Result;
 import hue.edu.xiong.volunteer_travel.core.ResultGenerator;
 import hue.edu.xiong.volunteer_travel.model.*;
-import hue.edu.xiong.volunteer_travel.repository.UserCommentRepository;
-import hue.edu.xiong.volunteer_travel.repository.UserRepository;
-import hue.edu.xiong.volunteer_travel.repository.UserYuYueRepository;
+import hue.edu.xiong.volunteer_travel.repository.*;
 import hue.edu.xiong.volunteer_travel.service.SystemService;
 import hue.edu.xiong.volunteer_travel.service.UserYuYueService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +37,11 @@ public class SystemController {
 
     @Autowired
     private UserYuYueService userYuYueService;
+
+    @Autowired
+    private HotelRepository hotelRepository;
+    @Autowired
+    private AttractionsRepository attractionsRepository;
 
 
     @RequestMapping("")
@@ -123,10 +126,11 @@ public class SystemController {
         return ResultGenerator.genSuccessResult(systemService.getAttractionsById(id));
     }
 
-    @RequestMapping("/updateAttractionsStatus")
+    @RequestMapping("/deleteAttractions")
     @ResponseBody
     public Result updateAttractionsStatus(String id) {
-        return systemService.updateAttractionsStatus(id);
+        attractionsRepository.deleteById(id);
+        return ResultGenerator.genSuccessResult();
     }
 
     @RequestMapping("/saveAttractions")
@@ -215,6 +219,21 @@ public class SystemController {
         }
         return ResultGenerator.genSuccessResult(yuYueDateNums);
     }
+    @RequestMapping("/hotelZhu")
+    @ResponseBody
+    public Result hotelZhu() {
+        List<Hotel> all = hotelRepository.findAll();
+        Map<String, List<Hotel>> listMap = all.stream().collect(Collectors.groupingBy(s -> s.getType()));
+        List<YuYueDateNum> yuYueDateNums = new ArrayList<>();
+        for (String s:listMap.keySet()){
+            YuYueDateNum yuYueDateNum = new YuYueDateNum();
+            yuYueDateNum.setDate(s);
+            yuYueDateNum.setNum(listMap.get(s).size());
+            yuYueDateNums.add(yuYueDateNum);
+        }
+        return ResultGenerator.genSuccessResult(yuYueDateNums);
+    }
+
     @RequestMapping("/pie")
     @ResponseBody
     public Result pie() {
@@ -225,6 +244,10 @@ public class SystemController {
         yuYueNum.setAm(amCount.intValue());
         yuYueNum.setPm(pmCount.intValue());
         return ResultGenerator.genSuccessResult(yuYueNum);
+    }
+    @RequestMapping("/hotelUI")
+    public String hotelUI(Model model) {
+        return "system/yuyue/charts2";
     }
     @RequestMapping("/yuyueZhuUI")
     public String yuyueZhuUI(Model model) {

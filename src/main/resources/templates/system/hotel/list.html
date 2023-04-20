@@ -5,6 +5,13 @@
 <div layout:fragment="content">
 
     <div class="container" style="width: 1400px">
+        <h1>藏品统计</h1>
+        <div id="aa">
+            <iframe noresize="noresize"
+                    style="background: transparent; width: 100%; height: 500px;"scrolling="no";
+                    src="http://localhost:8080/travel/system/hotelUI">
+            </iframe>
+        </div>
         <h1>藏品管理</h1>
         <div class="row clearfix">
             <form name="search-form" class="form-inline m-b-10 clearfix" th:action="@{/system/hotelListUI}"
