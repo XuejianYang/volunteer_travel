@@ -27,13 +27,13 @@ public class UserYuYue {
     @Column(name = "date")
     private String date;
     @Column(name = "during")
-    private Integer during;
+    private String during;
 
-    public Integer getDuring() {
+    public String getDuring() {
         return during;
     }
 
-    public void setDuring(Integer during) {
+    public void setDuring(String during) {
         this.during = during;
     }
 

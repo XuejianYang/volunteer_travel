@@ -11,16 +11,20 @@
                     <thead>
                     <tr>
                         <th width="150px">预约人</th>
-                        <th width="700px">手机号</th>
-                        <th width="300px">日期</th>
-                        <th>操作</th>
+                        <th width="300px">手机号</th>
+                        <th width="300px">身份证</th>
+                        <th width="200px">日期</th>
+                        <th width="100px">期间</th>
+                        <th width="100px">操作</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="userYuyue:${page.content}">
                         <td th:text="${userYuyue.name}"></td>
                         <td th:text="${userYuyue.phone}"></td>
+                        <td th:text="${userYuyue.card}"></td>
                         <td th:text="${userYuyue.date}"></td>
+                        <td th:text="${userYuyue.during}"></td>
                         <td>
                             <div  align="left">
                                 <button type="button" th:onclick="deletYuyue([[${userYuyue.id}]])" class="btn btn-default btn-success">删除</button>

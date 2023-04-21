@@ -104,7 +104,8 @@ public class SystemController {
     @RequestMapping("/updateStatus")
     @ResponseBody
     public Result updateStatus(String id) {
-        return systemService.updateStatus(id);
+         hotelRepository.deleteById(id);
+        return ResultGenerator.genSuccessResult();
     }
 
     @RequestMapping("/getHotelById")
@@ -180,29 +181,10 @@ public class SystemController {
     @RequestMapping("/yuyueUI")
     public String yuyue(Model model,@PageableDefault(size = 8) Pageable pageable) {
         Page<UserYuYue> page = userYuYueService.userYuYuePage(null,pageable);
-        //
-        List<UserYuYue> content = page.getContent();
-        Map<String, List<UserYuYue>> listMap = content.stream().collect(Collectors.groupingBy(s -> s.getDate()));
-        List<YuYueDateNum> yuYueResultList = new ArrayList();
-
-        for (String s: listMap.keySet()){
-            List<UserYuYue> yuYueList = listMap.get(s);
-            YuYueDateNum yuYueDateNum = new YuYueDateNum();
-            yuYueDateNum.setDate(s);
-            yuYueDateNum.setNum(yuYueList.size());
-            yuYueResultList.add(yuYueDateNum);
-            if(yuYueResultList.size()>7){
-                break;
-            }
-        };
-        // pm  am
-        Long amCount = content.stream().filter(s -> s.getDuring() == 0).count();
-        Long pmCount = content.size() - amCount;
-        YuYueNum yuYueNum = new YuYueNum();
-        yuYueNum.setAm(amCount.intValue());
-        yuYueNum.setPm(pmCount.intValue());
+        page.getContent().stream().filter(s->"0".equals(s.getDuring())).forEach(s->s.setDuring("上午"));
+        page.getContent().stream().filter(s->"1".equals(s.getDuring())).forEach(s->s.setDuring("上午"));
         model.addAttribute("page", page);
-        model.addAttribute("ampmTotal", yuYueNum);
+//        model.addAttribute("ampmTotal", yuYueNum);
         return "system/yuyue/list";
     }
     @RequestMapping("/yuyueZhu")
@@ -238,7 +220,7 @@ public class SystemController {
     @ResponseBody
     public Result pie() {
         List<UserYuYue> all = userYuYueRepository.findAll();
-        Long amCount = all.stream().filter(s -> s.getDuring() == 0).count();
+        Long amCount = all.stream().filter(s -> "0".equals(s.getDuring())).count();
         Long pmCount = all.size() - amCount;
         YuYueNum yuYueNum = new YuYueNum();
         yuYueNum.setAm(amCount.intValue());

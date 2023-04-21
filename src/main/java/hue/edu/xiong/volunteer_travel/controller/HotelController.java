@@ -17,6 +17,7 @@ import org.thymeleaf.util.StringUtils;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Author yxj
@@ -38,7 +39,7 @@ public class HotelController {
         Page<Hotel> hotelPage = hotelRepository.findAll((root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
             //status状态,查询状态为0,启动的酒店
-            predicates.add((cb.equal(root.get("status"), 0)));
+//            predicates.add((cb.equal(root.get("status"), 0)));
             //酒店name模糊查询
             if (!StringUtils.isEmpty(searchName)) {
                 predicates.add((cb.like(root.get("name"), "%" + searchName + "%")));
@@ -52,9 +53,12 @@ public class HotelController {
         }, pageable);
         List<Hotel> top10Hotel = reserveService.getTop10Hotel();
         List<Attractions> top10Attractions = reserveService.getTop10Attractions();
+        List<Hotel> all = hotelRepository.findAll();
+        List<String> typeList = all.stream().map(s -> s.getType()).distinct().collect(Collectors.toList());
         model.addAttribute("top10Hotel", top10Hotel);
-        model.addAttribute("top10Attractions", top10Attractions);
+//        model.addAttribute("top10Attractions", top10Attractions);
         model.addAttribute("page", hotelPage);
+        model.addAttribute("typeList", typeList);
         return "reserve/hotel-type-details";
     }
 

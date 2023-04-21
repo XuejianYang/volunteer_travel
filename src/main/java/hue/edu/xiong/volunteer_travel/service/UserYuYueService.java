@@ -93,7 +93,7 @@ public class UserYuYueService {
         if(size==0){
             return ResultGenerator.genSuccessResult(yuYueNum);
         }
-        Long amCount = userYuYueByDate.stream().filter(s -> s.getDuring() == 0).count();
+        Long amCount = userYuYueByDate.stream().filter(s -> "0".equals(s.getDuring())).count();
         int intValue = amCount.intValue();
         yuYueNum.setAm(100-intValue);
         yuYueNum.setPm(100-size - amCount.intValue());

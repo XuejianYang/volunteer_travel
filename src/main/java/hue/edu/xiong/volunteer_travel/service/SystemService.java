@@ -129,8 +129,10 @@ public class SystemService {
             hotel.setId(IdGenerator.id());
             hotel.setStatus(StatusEnum.DOWM_STATUS.getCode());
             hotel.setCreateDate(new Date());
-            int i = random.nextInt(100);
-            hotel.setImage("MY_kezhan_0" + (i % 8 + 1));
+            String image = hotel.getImage();
+            hotel.setImage(image.substring(0,image.lastIndexOf(".")));
+//            int i = random.nextInt(100);
+//            hotel.setImage("MY_kezhan_0" + (i % 8 + 1));
         } else {
             //有id的情况
             Hotel oldHotel = getHotelById(hotel.getId());

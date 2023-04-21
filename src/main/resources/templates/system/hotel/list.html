@@ -25,10 +25,11 @@
                 <table class="table table-hover table-condensed">
                     <thead>
                     <tr>
-                        <th width="150px">name</th>
-                        <th width="170px">image</th>
-                        <th width="150px">address</th>
-                        <th width="700px">describe</th>
+                        <th width="150px">名称</th>
+                        <th width="170px">图片</th>
+                        <th width="150px">位置</th>
+                        <th width="500px">描述</th>
+                        <th width="100px">分类</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -37,21 +38,19 @@
                         <td th:text="${hotel.name}"></td>
                         <td><img width="170px" th:src="@{'/images/'+ ${hotel.image} +'.jpg'}"></td>
                         <td th:text="${hotel.address}"></td>
-                        <td th:text="${hotel.describe}"></td>
+                        <td>
+                            <textarea cols="80px" rows="8px" th:text="${hotel.describe}"></textarea>
+                        </td>
+                        <td th:text="${hotel.type}" style="align-items: center"></td>
                         <td>
                             <div align="left" style="float:left">
                                 <button type="button" th:onclick="updateMember([[${hotel.id}]])"
                                         class="btn btn-default btn-info">修改
                                 </button>
                             </div>
-                            <div th:if="${hotel.status == 0}" align="left">
+                            <div  align="left" >
                                 <button type="button" th:onclick="updateStatus([[${hotel.id}]])"
                                         class="btn btn-default btn-danger">删除
-                                </button>
-                            </div>
-                            <div th:if="${hotel.status == 1}" align="left">
-                                <button type="button" th:onclick="updateStatus([[${hotel.id}]])"
-                                        class="btn btn-default btn-success">撤销删除
                                 </button>
                             </div>
                         </td>
@@ -102,6 +101,24 @@
                                 </textarea>
                             </div>
                         </div>
+                        <div class="form-group m-b-10" style="text-align:right">
+                            <label class="col-sm-4 control-label">
+                                分类:
+                            </label>
+                            <div class="col-sm-7">
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" id="types" name="address">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-b-10" style="text-align:right">
+                            <label class="col-sm-4 control-label">
+                                选择图片:
+                            </label>
+                            <div class="col-sm-7">
+                                <input type="file" class="form-control" id="image" name="image">
+                            </div>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -112,6 +129,13 @@
         </div>
     </div>
     <script th:inline="javascript">
+
+        function getSelectedImageName(inputFileElement) {
+            if (!inputFileElement || !inputFileElement.files || inputFileElement.files.length === 0) {
+                return null; // 没有选择图片文件，返回null
+            }
+            return inputFileElement.files[0].name; // 返回第一个选择的文件的名称
+        }
         function reset() {
             //全部清空
             $('#exampleModalLabel').text('新增展品');
@@ -178,6 +202,9 @@
             //address
             var address = $('#address').val();
 
+            var image =getSelectedImageName(document.getElementById('image'));
+            var describe = $('#describe').val();
+            var types = $('#types').val();
 
             if ($.trim(name) === '') {
                 layer.msg("展品名不能为空");
@@ -189,7 +216,7 @@
             }
             $.ajax({
                 url: '/travel/system/saveHotel',
-                data: $("#insertMember").serialize(),
+                data: {name:name,address:address,describe:describe,image:image,type:types},
                 type: 'post',
                 dataType: 'json',
                 success: function (result) {

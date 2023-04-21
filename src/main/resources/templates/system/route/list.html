@@ -46,7 +46,7 @@
                                 <button type="button" th:onclick="commentReset([[${travelRoute.id}]])" class="btn btn-default btn-info">评论</button>
                             </div>
                             <div th:if="${travelRoute.status == 0}" align="left">
-                                <button type="button" th:onclick="updateTravelRouteStatus([[${travelRoute.id}]])" class="btn btn-default btn-danger">禁用</button>
+                                <button type="button" th:onclick="updateTravelRouteStatus([[${travelRoute.id}]])" class="btn btn-default btn-danger">删除</button>
                             </div>
                             <div th:if="${travelRoute.status == 1}" align="left">
                                 <button type="button" th:onclick="updateTravelRouteStatus([[${travelRoute.id}]])" class="btn btn-default btn-success">启用</button>

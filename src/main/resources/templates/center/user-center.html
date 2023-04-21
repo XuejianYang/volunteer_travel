@@ -138,6 +138,12 @@
     </div>
     <!--service section end-->
     <script>
+        function getSelectedImageName(inputFileElement) {
+            if (!inputFileElement || !inputFileElement.files || inputFileElement.files.length === 0) {
+                return null; // 没有选择图片文件，返回null
+            }
+            return inputFileElement.files[0].name; // 返回第一个选择的文件的名称
+        }
         function link(url) {
             window.location.href = "/travel/user/" + url;
         }
