@@ -20,6 +20,36 @@ public class User {
     private String password;
     @Column(name = "name")
     private String name;
+    @Column(name = "img")
+    private String img;
+    @Column(name = "tel")
+    private String tel;
+    @Column(name = "card")
+    private String card;
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public String getCard() {
+        return card;
+    }
+
+    public void setCard(String card) {
+        this.card = card;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
 
     public String getName() {
         return name;

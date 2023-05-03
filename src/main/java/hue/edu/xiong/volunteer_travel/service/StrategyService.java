@@ -165,7 +165,8 @@ public class StrategyService {
     public List<UserStrategy> getTravelStrategyByUser(HttpServletRequest request) {
         Cookie cookie = CookieUitl.get(request, "username");
         if (cookie == null) {
-            throw new ServiceException("未能获得正确的用户名");
+//            throw new ServiceException("未能获得正确的用户名");
+            return new ArrayList<>();
         }
         User user = userRepository.findUserByUsername(cookie.getValue());
         return userStrategyRepository.findUserStrategyByUser(user);

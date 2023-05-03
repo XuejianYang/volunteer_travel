@@ -34,17 +34,24 @@
 <!--                            </a>-->
 <!--                        </div>-->
                         <div class="booklet-cont">
+                            <h5><a th:text="'票号: ' + ${yuYue.id}"></a></h5>
+                            <br>
+
                             <h5><a th:href="@{/reserve/hotelDetailsUI(id=${yuYue.id})}"
                                    th:text="'预约人: ' + ${yuYue.name}"></a></h5>
+                            <br>
+                            <h5><a th:text="'身份证号: ' + ${yuYue.card}"></a></h5>
+                            <br>
+                            <h5><a th:text="'手机号: ' + ${yuYue.phone}"></a></h5>
                             <br>
                             <div class="cy-summary-intro">
                                 <p th:text="'预约时间: ' + ${yuYue.date}">
                                 </p>
-                                <span th:if="${yuYue.during == 0}" align="left">
+                                <span th:if="${yuYue.during.equals('0')}" align="left">
                                     <p> 上午</p>
 
                                 </span>
-                                <span th:if="${yuYue.during == 1}" align="left">
+                                <span th:if="${yuYue.during.equals('1')}" align="left">
                                     <p> 下午</p>
                                 </span>
                             </div>

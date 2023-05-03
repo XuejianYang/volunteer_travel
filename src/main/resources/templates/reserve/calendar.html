@@ -181,12 +181,13 @@
                       // signal: abortController.signal,
                     });
                     const resJSON = await res.json();
-                    // alert(resJSON.msg);
-                    // console.log(res);
                     loading.value = false;
                     if (resJSON.code == 200) {
                       alert('提交成功！');
-                      window.location.href = "/travel/reserve/reserveManageUI2";
+                      // window.location.href = "/travel/reserve/reserveManageUI2";
+                      // window.location.reload();
+                      parent.location.href = "http://localhost:8080/travel/reserve/reserveManageUI";
+
                     } else {
                       console.log("提交失败");
                       alert("用户未登录!");
@@ -231,7 +232,11 @@
             <el-calendar v-model="selectedDate">
               <template #date-cell="{ data }">
                 <div class="calendar-td">
-                  <template v-if="isCurrDateAfter(data.date)"> {{ data.date.getDate() }}</template>
+                  <template v-if="isCurrDateAfter(data.date)"> </template>
+                  <template v-if="data.date.getDay() == 1">
+<!--                    {{ data.date.getDate() }}-->
+                    <div>闭管</div>
+                  </template>
                   <template v-else>
                     {{ data.date.getDate() }}
                     <div>可约</div>

@@ -34,7 +34,7 @@
                                 <label class="input">
                                     <i class="icon-append fa fa-user"></i>
                                     <input name="username" id="username" required type="text" placeholder="用户名">
-                                    <b class="tooltip tooltip-bottom-right">请输入正确的用户名,可用于登录和找回密码(必选)</b>
+                                    <b class="tooltip tooltip-bottom-right">请输入正确的用户名,2-4位汉字(必选)</b>
                                 </label>
                             </section>
                             <!--<section>-->
@@ -70,17 +70,18 @@
                             <section>
                                 <label class="input">
                                     <i class="icon-append fa fa-building"></i>
-                                    <input type="text" placeholder="身份证">
-                                    <b class="tooltip tooltip-bottom-right">请输入身份证(可选)</b>
+                                    <input type="text" placeholder="手机号" id="phone" name="phone">
+                                    <b class="tooltip tooltip-bottom-right">请输入11位手机号(可选)</b>
                                 </label>
                             </section>
                             <section>
                                 <label class="input">
                                     <i class="icon-append fa fa-building"></i>
-                                    <input type="text" placeholder="手机号">
-                                    <b class="tooltip tooltip-bottom-right">请输入手机号(可选)</b>
+                                    <input type="text" placeholder="身份证" id="card"  name="card">
+                                    <b class="tooltip tooltip-bottom-right">请输入18位身份证(可选)</b>
                                 </label>
                             </section>
+
 <!--                            <div class="row">-->
 <!--                                <section class="col col-md-6">-->
 <!--                                    <label class="input">-->
@@ -121,6 +122,13 @@
                 layer.msg("username不能为空");
             return;
             }
+            if (username.length<2) {
+                layer.msg("username位数错误！");
+                return;
+            }if (username.length>4) {
+                layer.msg("username位数错误！");
+                return;
+            }
             var password = $("input[name='password']").val();
             console.log()
             if ($.trim(password) == '') {
@@ -137,9 +145,19 @@
                 layer.msg("两次密码输入不一致");
                 return;
             }
+            var phone = $("input[name='phone']").val();
+            if (phone.length<11 ||phone.length>11) {
+                layer.msg("请输入11位手机号！");
+                return;
+            }
+            var card = $("input[name='card']").val();
+            if (card.length<18 || card.length>18) {
+                layer.msg("请输入18位身份证！");
+                return;
+            }
             $.ajax({
                 url: '/travel/register',
-                data: $("#form-submit").serialize(),
+                data: {name:name,tel:phone,card:card,password:password,username:username},
                 type: 'post',
                 dataType: 'json',
                 success: function (result) {

@@ -1,13 +1,12 @@
 package hue.edu.xiong.volunteer_travel.controller;
 
 import hue.edu.xiong.volunteer_travel.core.Result;
-import hue.edu.xiong.volunteer_travel.model.TravelStrategy;
-import hue.edu.xiong.volunteer_travel.model.UserComment;
-import hue.edu.xiong.volunteer_travel.model.UserLike;
-import hue.edu.xiong.volunteer_travel.model.UserStrategy;
-import hue.edu.xiong.volunteer_travel.repository.LikeRepository;
-import hue.edu.xiong.volunteer_travel.repository.UserCommentRepository;
+import hue.edu.xiong.volunteer_travel.core.ServiceException;
+import hue.edu.xiong.volunteer_travel.model.*;
+import hue.edu.xiong.volunteer_travel.repository.*;
+import hue.edu.xiong.volunteer_travel.service.ReserveService;
 import hue.edu.xiong.volunteer_travel.service.StrategyService;
+import hue.edu.xiong.volunteer_travel.util.CookieUitl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -32,6 +33,16 @@ public class StrategyController {
     private LikeRepository likeRepository;
     @Autowired
     private UserCommentRepository userCommentRepository;
+    @Autowired
+    private UserStrategyRepository userStrategyRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private ReserveService reserveService;
+    @Autowired
+    private AttractionsRepository attractionsRepository;
+    @Autowired
+    private UserAttractionsRepository userAttractionsRepository;
 
     @RequestMapping("/travelStrategyListUI")
     public String travelStrategyListUI(Model model, @ModelAttribute("searchName") String searchName, @PageableDefault(size = 10) Pageable pageable) {
@@ -77,10 +88,21 @@ public class StrategyController {
 
     @RequestMapping("/strategyManageUI")
     public String strategyManageUI(Model model, HttpServletRequest request) {
-        List<UserStrategy> userStrategyList = strategyService.getTravelStrategyByUser(request);
-        List<TravelStrategy> top10Strategy = strategyService.findTop10Strategy();
-        model.addAttribute("top10Strategy", top10Strategy);
-        model.addAttribute("userStrategyList", userStrategyList);
+        Cookie cookie = CookieUitl.get(request, "username");
+        if (cookie == null) {
+            return "strategy/strategy-manage";
+        }
+        User user = userRepository.findUserByUsername(cookie.getValue());
+        List<Attractions> top10Attractions = reserveService.getTop10Attractions();
+        // 收藏的展馆
+        List<UserAttractions> userAttractionsByUser = userAttractionsRepository.findUserAttractionsByUser(user);
+        List<Attractions> attractionList = new ArrayList<>();
+        userAttractionsByUser.forEach(s->{
+            Attractions attractions = attractionsRepository.findById(s.getAttractions().getId()).orElseThrow(() -> new ServiceException("景点ID错误"));
+            attractionList.add(attractions);
+        });
+        model.addAttribute("top10Attractions", top10Attractions);
+        model.addAttribute("userStrategyList", attractionList);
         return "strategy/strategy-manage";
     }
 

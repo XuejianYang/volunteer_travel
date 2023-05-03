@@ -28,6 +28,8 @@ public class UserYuYue {
     private String date;
     @Column(name = "during")
     private String during;
+    @Column(name = "yuyueer")
+    private String yuyueer;
 
     public String getDuring() {
         return during;
@@ -77,4 +79,11 @@ public class UserYuYue {
         this.date = date;
     }
 
+    public String getYuyueer() {
+        return yuyueer;
+    }
+
+    public void setYuyueer(String yuyueer) {
+        this.yuyueer = yuyueer;
+    }
 }

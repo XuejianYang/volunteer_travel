@@ -26,23 +26,54 @@
         <div class="container">
             <div class="row med_toppadder50 med_bottompadder50">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <h1>我关注的攻略</h1>
-                    <div style="min-height: 150px" class="cy-news-grid-item" th:each="userStrategy:${userStrategyList}">
-                        <div class="cy-ib-thumbnail pull-left">
-                        </div>
-                        <div class="booklet-cont">
-                            <h5><a th:href="@{/strategy/travelStrategyDetailsUI(id=${userStrategy.travelStrategy.id})}"
-                                   th:text="'路线预约: ' + ${userStrategy.travelStrategy.title}"></a></h5>
-                            <div class="cy-summary-intro">
-                                <p th:text="${userStrategy.travelStrategy.describe}">
-                                </p>
-                            </div>
-                            <div class="text-right"><a
-                                    th:onclick="cancelTravelStrategyReserve([[${userStrategy.travelStrategy.id}]])"
-                                    class="btn btn-info btn-sm">取消收藏</a>
+                    <h1>我的关注</h1>
+                    <div class="page-container">
+                        <div class="container">
+                            <div class="row med_toppadder50 med_bottompadder50">
+                                <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
+                                    <div class="filter-type-box cy-tabs">
+                                        <ul class="nav nav-tabs mb-10">
+                                            <li class="active">
+<!--                                                <a href="javascript:void(0);"><i class="fa"></i>常设展馆</a>-->
+                                            </li>
+                                            <li class="pull-right">
+                                                <div class="search-tags">
+<!--                                                    <form th:action="@{/reserve/reserveAttractionsListUI}" methed="post" name="search-form"  id="search-form" class="form-inline">-->
+<!--                                                        <div class="input-group">-->
+<!--                                                            <input type="text" name="searchName" th:value="${searchName}" class="form-control">-->
+<!--                                                            <span class="input-group-btn">-->
+<!--                                                <input class="btn btn-info" type="submit" value="名称搜索"><i class="fa fa-search"></i>  </input>-->
+<!--                                            </span>-->
+<!--                                                        </div>-->
+<!--                                                    </form>-->
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div th:each="attractions:${userStrategyList}" class="cy-news-grid-item">
+                                        <div class="cy-news-thumbnail pull-left">
+                                            <a th:href="@{/reserve/attractionsDetailsUI(id=${attractions.id})}">
+                                                <img th:src="@{'/images/'+ ${attractions.image} +'.jpg'}"  class="image_fade" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="cy-media-body">
+                                            <div class="cy-grid-body">
+                                                <h5><a th:href="@{/reserve/attractionsDetailsUI(id=${attractions.id})}" th:text="${attractions.name}"></a></h5>
+                                                <small th:text="${attractions.describe}">
+                                                </small>
+                                            </div>
+                                            <div class="cy-btm-info">
+                                                <div class="cy-btm-date" th:text="${attractions.address}"></div>
+                                                <div class="cy-btm-tags"><a href="javascript:void(0);">北京</a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>

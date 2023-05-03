@@ -42,54 +42,13 @@
           })
           .catch(err => {
             console.log(err);
-            alert('请求出错：柱状图');
+            // alert('请求出错：柱状图');
           });
       });
     </script>
 
     <script>
-      // document.addEventListener('DOMContentLoaded', () => {
-      //   fetch('/travel/system/pie')
-      //     .then(res => res.json())
-      //     .then(data => {
-      //       // const data = { am: 233, pm: 2333 };
-      //
-      //       const plotData = Object.entries(data.data).map(([time, ticketNum]) => {
-      //         let timeStr;
-      //         switch (time) {
-      //           case 'am':
-      //             timeStr = '上午';
-      //             break;
-      //           case 'pm':
-      //             timeStr = '下午';
-      //             break;
-      //           default:
-      //             timeStr = time;
-      //         }
-      //         return { time: timeStr, ticketNum };
-      //       });
-      //
-      //       const piePlot = new G2Plot.Pie(document.querySelector('#chart-pie'), {
-      //         data: plotData,
-      //         colorField: 'time',
-      //         angleField: 'ticketNum',
-      //         innerRadius: 0.5,
-      //         meta: {
-      //           time: {
-      //             alias: '时间段',
-      //           },
-      //           ticketNum: {
-      //             alias: '预约数量',
-      //           },
-      //         },
-      //       });
-      //       piePlot.render();
-      //     })
-      //     .catch(err => {
-      //       console.log(err);
-      //       alert('请求出错：饼图');
-      //     });
-      // });
+
     </script>
   </head>
   <body>

@@ -23,10 +23,25 @@ public class LoginServiceTest {
 
     @Test
     public void test() {
-//        User user = new User();
-//        user.setUsername("root");
-//        user.setPassword("123456");
+        User user = new User();
+        user.setUsername("root");
+        user.setPassword("123456");
+        User user2 = new User();
+        user2.setUsername("root");
+        user2.setPassword("123456");
+        System.out.println(user.equals(user2));
 //        Result result = loginService.login(user);
 //        System.out.println(result);
+
+        String a = "aa";
+        String b = "aa";
+        String aa = new String("aa");
+        a.equals(b);
+        String c = aa;
+        Integer i=12;
+        int j = 12;
+
+        System.out.println( i.equals(j));
+
     }
 }

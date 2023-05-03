@@ -9,6 +9,7 @@ import hue.edu.xiong.volunteer_travel.repository.UserRepository;
 import hue.edu.xiong.volunteer_travel.util.CookieUitl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -38,7 +39,18 @@ public class UserCenterService {
     public Result centerEdit(User user) {
         User oldUser = userRepository.findById(user.getId()).orElseThrow(() -> new ServiceException("用户ID错误!"));
         oldUser.setName(user.getName());
-        userRepository.save(oldUser);
+        oldUser.setCard(user.getCard());
+        oldUser.setTel(user.getTel());
+        String img = user.getImg();
+        if(StringUtils.isEmpty(img)){
+            img = "00";
+        }
+        String substring = img.substring(0, img.lastIndexOf("."));
+        oldUser.setImg(substring);
+        oldUser.setId(user.getId());
+        oldUser.setUsername(user.getUsername());
+        oldUser.setPassword(user.getPassword());
+        userRepository.saveAndFlush(oldUser);
         return ResultGenerator.genSuccessResult();
     }
 

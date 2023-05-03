@@ -63,6 +63,7 @@ public class UserYuYueService {
         User user = userRepository.findUserByUsername(cookie.getValue());
         yuYueList.forEach(s->{
             s.setId(IdGenerator.id());
+            s.setYuyueer(cookie.getValue());
         userYuYueRepository.saveAndFlush(s);
         });
 
@@ -80,7 +81,7 @@ public class UserYuYueService {
     }
     @Transactional(rollbackFor = Exception.class)
     public  List<UserYuYue> getYuyueListByName(String name) {
-        List<UserYuYue> all = userYuYueRepository.findUserYuYueByName(name);
+        List<UserYuYue> all = userYuYueRepository.findUserYuYueByYuyueer(name);
         return all;
     }
     @Transactional(rollbackFor = Exception.class)

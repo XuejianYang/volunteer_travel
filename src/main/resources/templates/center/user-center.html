@@ -58,62 +58,25 @@
                                                         <div class="col col-2">
                                                             <p class="form-control-static" th:text="${user.name}"></p>
                                                         </div>
-                                                        <label class="label col col-1">性别</label>
+                                                        <label class="label col col-1">头像</label>
                                                         <div class="col col-2">
-                                                            <p class="form-control-static">未实现</p>
+                                                            <td><img width="50px" height="50px" th:src="@{'/images/'+ ${user.img} +'.jpg'}"></td>
+<!--                                                            <p class="form-control-static" th:text="${user.img}"></p>-->
                                                         </div>
+
 
                                                     </section>
                                                     <section>
-                                                        <label class="label col col-1">学历</label>
-                                                        <div class="col col-2">
-                                                            <p class="form-control-static">未实现</p>
-                                                        </div>
-
-                                                        <label class="label col col-1">未实现</label>
-                                                        <div class="col col-2">
-                                                            <p class="form-control-static">未实现</p>
-                                                        </div>
                                                         <label class="label col col-1">手机</label>
                                                         <div class="col col-2">
-                                                            <p class="form-control-static">未实现</p>
+                                                            <p class="form-control-static" th:text="${user.tel}"></p>
                                                         </div>
-                                                        <label class="label col col-1">未实现</label>
+                                                        <label class="label col col-1">身份证</label>
                                                         <div class="col col-2">
-                                                            <p class="form-control-static">不详</p>
+                                                            <p class="form-control-static" th:text="${user.card}"></p>
                                                         </div>
                                                     </section>
-                                                    <section>
-                                                        <label class="label col col-1">电话</label>
-                                                        <div class="col col-2">
-                                                            <p class="form-control-static">未实现</p>
-                                                        </div>
 
-                                                        <label class="label col col-1">单位</label>
-                                                        <div class="col col-2">
-                                                            <p class="form-control-static">未实现</p>
-                                                        </div>
-                                                        <label class="label col col-1">通讯地址</label>
-                                                        <div class="col col-2">
-                                                            <p class="form-control-static">未实现</p>
-                                                        </div>
-                                                        <label class="label col col-1">职务</label>
-                                                        <div class="col col-2">
-                                                            <p class="form-control-static">未实现</p>
-                                                        </div>
-                                                    </section>
-                                                    <section>
-                                                        <label class="label col col-1">所在地区</label>
-                                                        <div class="col col-2">
-                                                            <p class="form-control-static">未实现</p>
-                                                        </div>
-
-                                                        <label class="label col col-1">所属人群</label>
-                                                        <div class="col col-2">
-                                                            <p class="form-control-static">未实现</p>
-                                                        </div>
-
-                                                    </section>
                                                 </div>
                                             </fieldset>
                                             <footer>

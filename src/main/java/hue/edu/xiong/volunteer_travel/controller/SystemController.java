@@ -42,6 +42,11 @@ public class SystemController {
     private HotelRepository hotelRepository;
     @Autowired
     private AttractionsRepository attractionsRepository;
+    @Autowired
+    private UserStrategyRepository userStrategyRepository;
+
+    @Autowired
+    private TravelStrategyRepository travelStrategyRepository;
 
 
     @RequestMapping("")
@@ -174,8 +179,8 @@ public class SystemController {
 
     @RequestMapping("/travelStrategyListUI")
     public String travelStrategyListUI(Model model, @PageableDefault(size = 10) Pageable pageable) {
-        Page<TravelStrategy> page = systemService.getTravelStrategyPage(pageable);
-        model.addAttribute("page", page);
+        Page<TravelStrategy> page2 = systemService.getTravelStrategyPage(pageable);
+        model.addAttribute("page", page2);
         return "system/strategy/list";
     }
     @RequestMapping("/yuyueUI")
@@ -257,5 +262,10 @@ public class SystemController {
     @ResponseBody
     public Result saveTravelStrategy(HttpServletRequest request,TravelStrategy travelStrategy) {
         return systemService.saveTravelStrategy(request,travelStrategy);
+    }
+    @RequestMapping("/adminSaveTravelStrategy")
+    @ResponseBody
+    public Result adminSaveTravelStrategy(TravelStrategy travelStrategy) {
+        return systemService.adminSaveTravelStrategy(travelStrategy);
     }
 }

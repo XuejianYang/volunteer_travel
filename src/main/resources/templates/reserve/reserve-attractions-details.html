@@ -63,8 +63,8 @@
                     <div class="news-detail-box">
                         <h3 th:text="${attractions.name}"></h3>
                         <div class="author-info">
-                            <span th:text="${#calendars.format(attractions.createDate,'yyyy-MM-dd')}"></span>
-                            <span>所在地：<span th:text="${attractions.address}"></span></span>
+                            <span>开始时间：<span th:text="${#calendars.format(attractions.createDate,'yyyy-MM-dd')}"></span></span>
+                            <span>位置：<span th:text="${attractions.address}"></span></span>
                             <span>浏览次数：13</span>
                         </div>
 

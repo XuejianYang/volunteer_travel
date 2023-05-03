@@ -38,8 +38,6 @@ public class ReserveController {
     @Autowired
     private UserYuYueService userYuYueService;
 
-    @Autowired
-    private UserRepository userRepository;
 
     @RequestMapping("/reserveHotelListUI")
     public String reserveHotelListUI(Model model, @ModelAttribute("searchName") String searchName,@ModelAttribute("type") String type, @PageableDefault(size = 10) Pageable pageable) {
@@ -75,16 +73,6 @@ public class ReserveController {
         }
         model.addAttribute("yuYueList",yuyueListByName);
         return "reserve/reserve-user-manage";
-    }
-    @RequestMapping("/reserveManageUI2")
-    public String reserveManageUI2(Model model, HttpServletRequest request) {
-        Cookie cookie = CookieUitl.get(request, "username");
-        List<UserYuYue> yuyueListByName = new ArrayList<>();
-        if (cookie != null) {
-            yuyueListByName = userYuYueService.getYuyueListByName(cookie.getValue());
-        }
-        model.addAttribute("yuYueList",yuyueListByName);
-        return "reserve/reserve-user-manage2";
     }
 
     @RequestMapping("/cancelReserve")
@@ -151,7 +139,10 @@ public class ReserveController {
         model.addAttribute("attractions", attractions);
         model.addAttribute("numb", likeList.size());
         model.addAttribute("commentList", commentList);
-        List<String> strings = Arrays.asList(attractions.getImages().split(","));
+        List<String> strings = new ArrayList<>();
+        if(attractions.getImages()!=null){
+           strings = Arrays.asList(attractions.getImages().split(","));
+        }
         model.addAttribute("flag", flag);
         model.addAttribute("images",strings);
         return "reserve/reserve-attractions-details";

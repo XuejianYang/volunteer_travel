@@ -24,7 +24,7 @@
                         <th width="500px">describe</th>
                         <th width="80px">点赞</th>
                         <th width="80px">收藏</th>
-                        <th>操作</th>
+                        <th width="200px">操作</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -41,13 +41,47 @@
                             <div align="left" style="float:left">
                                 <button type="button" th:onclick="updateMember([[${attractions.id}]])" class="btn btn-default btn-info">修改</button>
                             </div>
+                            <div align="left" style="float:left ;flex: 1">
+                                <button type="button" th:onclick="commentReset([[${attractions.id}]])" class="btn btn-default btn-info">评论</button>
+                            </div>
                             <div  align="left">
                                 <button type="button" th:onclick="updateAttractionsStatus([[${attractions.id}]])" class="btn btn-default btn-danger">删除</button>
                             </div>
-<!--                            <div th:if="${attractions.status == 1}" align="left">-->
-<!--                                <button type="button" th:onclick="updateAttractionsStatus([[${attractions.id}]])" class="btn btn-default btn-success">撤销删除</button>-->
-<!--                            </div>-->
                         </td>
+                            <!--评论弹框-->
+                            <div class="modal fade" th:id="${attractions.id}">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                                    aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title" id="commentModalLabel"></h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!--评论-->
+                                            <div th:each="comment:${attractions.commentList}" class="cy-news-grid-item">
+                                                <div class="cy-media-body">
+                                                    <div class="cy-grid-body">
+                                                        <span style=" font-family: PingFang SC, sans-serif;font-weight: 500;color: red;font-size: large "
+                                                              th:text="${comment.userName}+' :'">：</span>
+                                                        <span th:text="${comment.createTime}" style="color: #9499A0;"></span>
+                                                        <span th:text="${comment.content}" style="margin-left: 50px"></span>
+                                                        <button type="button" class=" btn-info" style="float: right" th:onclick="deleteComment([[${comment.id}]])">删除</button>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--评论-->
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                                            <!--                                        <button type="button" class="btn btn-info" onclick="saveForm()">提交</button>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--评论弹框-->
                     </tr>
                     </tbody>
                 </table>
@@ -72,7 +106,7 @@
 
                         <div id="usernameDiv" class="form-group m-b-10" style="text-align:right">
                             <label class="col-sm-4 control-label">
-                                <label style="color: red">*</label>景点名:
+                                <label style="color: red">*</label>展览名:
                             </label>
                             <div class="col-sm-7">
                                 <input type="text" class="form-control" id="name" name="name">
@@ -80,14 +114,14 @@
                         </div>
                         <div class="form-group m-b-10" style="text-align:right">
                             <label class="col-sm-4 control-label">
-                                <label style="color: red">*</label>景点地址:</label>
+                                <label style="color: red">*</label>展览地址:</label>
                             <div class="col-sm-7">
                                 <input type="text" class="form-control" id="address" name="address">
                             </div>
                         </div>
                         <div class="form-group m-b-10" style="text-align:right">
                             <label class="col-sm-4 control-label">
-                                景点描述:
+                                展览描述:
                             </label>
                             <div class="col-sm-7">
                                 <textarea type="text" rows="7" cols="20" class="form-control" id="describe"
@@ -133,7 +167,13 @@
             }
             return inputFileElement.files[0].name; // 返回第一个选择的文件的名称
         }
-
+        function commentReset(ids) {
+            //全部清空
+            $('#commentModalLabel').text('评论列表');
+            $('#'+ids).modal('show')
+            //显示模态框
+            // $('#commentModal').modal('show')
+        }
         function updateMember(id) {
             $.ajax({
                 url: '/travel/system/getAttractionsById',
@@ -159,7 +199,24 @@
                 }
             });
         }
-
+        function deleteComment(id){
+            $.ajax({
+                url: '/travel/system/deleteComment',
+                data: {"id": id},
+                type: 'post',
+                dataType: 'json',
+                success: function (result) {
+                    if (result.code === 200) {
+                        window.location.reload();
+                    } else {
+                        layer.open({
+                            title: '错误提示',
+                            content: result.message
+                        });
+                    }
+                }
+            })
+        }
         function updateAttractionsStatus(id) {
             $.ajax({
                 url: '/travel/system/deleteAttractions',

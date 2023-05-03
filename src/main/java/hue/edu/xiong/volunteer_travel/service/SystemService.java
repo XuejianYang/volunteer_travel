@@ -173,6 +173,8 @@ public class SystemService {
             String id = s.getId();
             List<UserLike> likeList = likeRepository.findLikeByItemId(id);
             s.setLikeNum(likeList.size());
+            List<UserComment> commentByItemId = userCommentRepository.findUserCommentByItemId(id);
+            s.setCommentList(commentByItemId);
             List<UserAttractions> userAttractionsByAttractions = userAttractionsRepository.findUserAttractionsByAttractions(s);
             s.setPreNum(userAttractionsByAttractions.size());
         });
@@ -245,7 +247,7 @@ public class SystemService {
             travelRoute.setId(IdGenerator.id());
             if (travelRoute.getStatus() == null) {
                 //默认为停用
-                travelRoute.setStatus(StatusEnum.DOWM_STATUS.getCode());
+                travelRoute.setStatus(StatusEnum.UP_STATUS.getCode());
                 travelRoute.setCollectNumber(0);
                 travelRoute.setCreateDate(new Date());
             }
@@ -280,6 +282,7 @@ public class SystemService {
     public Page<TravelStrategy> getTravelStrategyPage(Pageable pageable) {
         Page<TravelStrategy> travelStrategyPage = travelStrategyRepository.findAll((root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
+            predicates.add((cb.equal(root.get("status"), 0)));
             query.where(predicates.toArray(new Predicate[]{}));
             query.orderBy(cb.desc(root.get("createDate")));
             return null;
@@ -303,13 +306,29 @@ public class SystemService {
         travelStrategyRepository.saveAndFlush(travelStrategy);
         return ResultGenerator.genSuccessResult();
     }
+    @Transactional(rollbackFor = Exception.class)
+    public Result adminSaveTravelStrategy(TravelStrategy travelStrategy) {
+        travelStrategy.setId(IdGenerator.id());
+        travelStrategy.setCreateDate(new Date());
+        travelStrategy.setDescribe(travelStrategy.getDescribe());
+        travelStrategy.setStatus(StatusEnum.UP_STATUS.getCode());
+        travelStrategy.setCreateDate(new Date());
 
+
+        travelStrategyRepository.saveAndFlush(travelStrategy);
+        return ResultGenerator.genSuccessResult();
+    }
 
     @Transactional(rollbackFor = Exception.class)
     public Result saveTravelStrategy(HttpServletRequest request,TravelStrategy travelStrategy) {
-
+        Cookie cookie = CookieUitl.get(request, "username");
+        if (cookie == null) {
+            return ResultGenerator.genFailResult("用户没有登录!");
+        }
+        User user = userRepository.findUserByUsername(cookie.getValue());
         if (StringUtils.isEmpty(travelStrategy.getId())) {//没有id的情况
             travelStrategy.setId(IdGenerator.id());
+            travelStrategy.setUser(user);
             if (travelStrategy.getStatus() == null) {
                 //默认为停用
                 travelStrategy.setStatus(StatusEnum.DOWM_STATUS.getCode());

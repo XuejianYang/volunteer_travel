@@ -191,7 +191,7 @@ public class ReserveService {
         Page<Hotel> hotelPage = hotelRepository.findAll((root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
             //status状态,查询状态为0,启动的酒店
-            predicates.add((cb.equal(root.get("status"), 0)));
+//            predicates.add((cb.equal(root.get("status"), 0)));
             query.where(predicates.toArray(new Predicate[]{}));
             query.orderBy(cb.desc(root.get("createDate")));
             return null;
@@ -204,7 +204,7 @@ public class ReserveService {
         Page<Attractions> attractionsPage = attractionsRepository.findAll((root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
             //status状态,查询状态为0,启动的景点
-            predicates.add((cb.equal(root.get("status"), 0)));
+//            predicates.add((cb.equal(root.get("status"), 0)));
             //景点name模糊查询
             query.where(predicates.toArray(new Predicate[]{}));
             query.orderBy(cb.desc(root.get("createDate")));

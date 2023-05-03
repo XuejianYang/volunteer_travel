@@ -22,6 +22,10 @@ public class LoginController {
     public String loginUI() {
         return "login/index-login";
     }
+    @RequestMapping("/about")
+    public String about() {
+        return "login/about";
+    }
 
     @RequestMapping("/login")
     @ResponseBody

@@ -30,7 +30,17 @@ public class Attractions {
     @Transient
     private Integer preNum;
     @Transient
+    private List<UserComment> commentList;
+    @Transient
     private List<String> imageList;
+
+    public List<UserComment> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(List<UserComment> commentList) {
+        this.commentList = commentList;
+    }
 
     public String getImages() {
         return images;
