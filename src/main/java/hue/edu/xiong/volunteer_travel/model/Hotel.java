@@ -7,9 +7,8 @@ import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
-@Table(name = "hotel")
+@Table(name = "collection")
 public class Hotel {
-
     @Id
     @Column(name = "id")
     private String id;

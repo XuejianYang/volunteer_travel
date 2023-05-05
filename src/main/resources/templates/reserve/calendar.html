@@ -79,7 +79,7 @@
 
               // 监听选中日期的变化 如果选择的日期是今天之前，则回退上一个选择的日期
               watch(selectedDate, (newVal, prevVal, onCleanup) => {
-                if (isCurrDateAfter(dayjs(newVal))) {
+                if (isCurrDateAfter(dayjs(newVal)) ||newVal.getDay() == 1 ) {
                   selectedDate.value = new Date();
                   ElMessage({
                     message: '不可预约',
@@ -232,14 +232,15 @@
             <el-calendar v-model="selectedDate">
               <template #date-cell="{ data }">
                 <div class="calendar-td">
-                  <template v-if="isCurrDateAfter(data.date)"> </template>
-                  <template v-if="data.date.getDay() == 1">
-<!--                    {{ data.date.getDate() }}-->
-                    <div>闭管</div>
-                  </template>
+                  <template v-if="isCurrDateAfter(data.date)">{{ data.date.getDate() }} </template>
                   <template v-else>
                     {{ data.date.getDate() }}
-                    <div>可约</div>
+                    <div v-show="data.date.getDay() == 1">
+                      闭管
+                    </div>
+                    <div v-show="data.date.getDay() != 1">
+                      可约
+                    </div>
                   </template>
                 </div>
               </template>
